@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('../../semantic/dist/semantic.min');
 
 window.Vue = require('vue');
 
@@ -16,7 +17,19 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('site-header', require('./components/SiteHeader.vue'));
+Vue.component('welcome', require('./components/Welcome'));
+Vue.component('backstory-generator', function (resolve) {require(['./components/Characters/BackstoryGenerator.vue'], resolve);});
 
-const app = new Vue({
-    el: '#app'
+const vm = new Vue({
+    el: '#app',
+    data: {
+        page: 'welcome'
+    }
 });
+
+export {
+    vm
+};
+
+require('./main')
