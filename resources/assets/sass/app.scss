@@ -1,9 +1,25 @@
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Alegreya+SC|Balthazar");
 
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../../semantic/dist/semantic.min.css";
+
+.ui.header {
+  font-family: 'Balthazar', serif;
+}
+
+.ui.header.main {
+  margin-bottom: 0;
+}
+
+#main-header {
+  margin-bottom: 1rem;
+}
+
+.ui.inverted.menu .item > .header {
+  color: white;
+}
