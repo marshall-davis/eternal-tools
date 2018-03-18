@@ -16,11 +16,11 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('site-header', require('./components/SiteHeader.vue'));
 Vue.component('welcome', require('./components/Welcome'));
 Vue.component('site-footer', require('./components/SiteFooter'));
-Vue.component('backstory-generator', function (resolve) {require(['./components/Characters/BackstoryGenerator.vue'], resolve);});
+Vue.component('backstory-generator', function (resolve) {require(['./components/Characters/BackstoryGenerator'], resolve);});
+Vue.component('map-creator', function (resolve) {require(['./components/Maps/MapCreator'], resolve);});
 
 const vm = new Vue({
     el: '#app',

@@ -16,6 +16,9 @@
     <div class="header item">
         <h2 class="ui header">Maps</h2>
     </div>
+    <div class="item" data-page="map-creator">
+        Map Creator
+    </div>
     <div class="header item">
         <h2 class="ui header">Skills</h2>
     </div>
@@ -32,7 +35,7 @@
 </div>
 {{-- End Component: Navigation --}}
 <div class="pusher" id="app">
-    <div class="ui container" style="margin-top: 1rem; margin-bottom: 1rem;">
+    <div class="ui container" style="margin-top: 1rem; margin-bottom: 3rem;">
         <site-header></site-header>
         <component :is="page"></component>
         <site-footer></site-footer>
