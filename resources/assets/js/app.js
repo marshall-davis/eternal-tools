@@ -19,6 +19,7 @@ window.Vue = require('vue');
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('site-header', require('./components/SiteHeader.vue'));
 Vue.component('welcome', require('./components/Welcome'));
+Vue.component('site-footer', require('./components/SiteFooter'));
 Vue.component('backstory-generator', function (resolve) {require(['./components/Characters/BackstoryGenerator.vue'], resolve);});
 
 const vm = new Vue({
