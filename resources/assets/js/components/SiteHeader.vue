@@ -1,7 +1,7 @@
 <template>
     <div id="main-header">
-        <h1 class="ui main header">Eternal City Tools</h1>
-        <span class="header">A Collection of Useful Tools for The Eternal City</span>
+        <div class="ui main huge header">Eternal City Tools</div>
+        <div class="ui tiny header">A Collection of Useful Tools for The Eternal City</div>
     </div>
 </template>
 

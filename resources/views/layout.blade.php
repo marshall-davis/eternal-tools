@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body class="pushable">
-<!-- Should be a component: Navigation -->
+{{-- Should be a component: Navigation --}}
 <div class="ui left vertical inverted menu sidebar" id="main-navigation">
     <div class="header item">
         <h2 class="ui header">Maps</h2>
@@ -30,11 +30,12 @@
      style="padding: 0.75em; position: fixed; top: 2.5em; left: 0;">
     <i class="content icon" style="margin: 0;"></i>
 </div>
-<!-- End Component: Navigation -->
+{{-- End Component: Navigation --}}
 <div class="pusher" id="app">
     <div class="ui container" style="margin-top: 1rem; margin-bottom: 1rem;">
         <site-header></site-header>
         <component :is="page"></component>
+        <site-footer></site-footer>
     </div>
 </div>
 </body>
