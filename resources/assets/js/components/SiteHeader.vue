@@ -12,5 +12,7 @@
 </script>
 
 <style scoped>
-
+    .ui.tiny.header {
+        margin-top: 0;
+    }
 </style>

@@ -7,5 +7,6 @@ $(() => {
 
     $('#main-navigation').on('click', '.item:not(.header)', (event) => {
         vm.page = $(event.currentTarget).data('page')
+        $('.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
     });
 });
