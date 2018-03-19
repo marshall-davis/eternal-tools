@@ -1,6 +1,7 @@
 <template>
     <div class="ui segment map">
-        <canvas id="map-canvas" ref="canvas" @click="handleClick"></canvas>
+        <canvas id="map-canvas" ref="canvas" :style="style" v-on:mousedown="handleClick" v-on:mousemove="drag"
+                v-on:mouseup="stopDragging"></canvas>
     </div>
 </template>
 
@@ -15,7 +16,17 @@
                 position: {},
                 scale: 0.10,
                 size: 80,
-                deltas: []
+                deltas: [],
+                mapPosition: {},
+                canvasCursor: 'auto',
+                mode: 'edit',
+                dragging: false,
+                dragStart: {}
+            }
+        },
+        computed: {
+            style: function () {
+                return 'cursor: ' + this.canvasCursor + ';';
             }
         },
         created() {
@@ -25,30 +36,43 @@
             bus.$on('download', () => {
                 this.download();
             });
+            bus.$on('walk', (path) => {
+                this.walk(path);
+            });
+            bus.$on('mode', mode => this.setMode(mode));
         },
         mounted() {
-            this.position = {
-                x: this.$refs.canvas.width / 2,
-                y: this.$refs.canvas.height / 2
-            };
             Vue.nextTick(() => {
                 this.$refs.canvas.width = this.$refs.canvas.offsetWidth;
                 this.$refs.canvas.height = this.$refs.canvas.offsetHeight;
                 this.canvasContext = this.$refs.canvas.getContext('2d');
                 this.canvasContext.fillStyle = 'green';
+                this.findMapPosition();
+
+                Vue.nextTick(() => {
+                    console.log('Canvas width', this.$refs.canvas.width, Math.floor(this.$refs.canvas.width / 2), 'Canvas height', this.$refs.canvas.height, Math.floor(this.$refs.canvas.height / 2));
+                    console.log('Canvas at', this.mapPosition.x, this.mapPosition.y);
+                    this.changePosition(
+                        Math.floor((this.$refs.canvas.width / 2)),
+                        Math.floor((this.$refs.canvas.height / 2))
+                    );
+                });
             });
         },
         methods: {
-            draw: function () {
-                let boxSize = Math.floor(this.size * this.scale);
-                let mapPosition = {
+            findMapPosition: function () {
+                this.mapPosition = {
                     y: this.$refs.canvas.getBoundingClientRect().top + window.pageYOffset,
                     x: this.$refs.canvas.getBoundingClientRect().left + window.pageXOffset
                 };
+            },
+            draw: function () {
+                let boxSize = Math.floor(this.size * this.scale);
                 let boxPosition = {
-                    x: Math.floor(Math.abs((this.position.x - mapPosition.x)) - (boxSize / 2)),
-                    y: Math.floor(Math.abs((this.position.y - mapPosition.y)) - (boxSize / 2)),
+                    x: Math.floor(this.position.x - (boxSize / 2)),
+                    y: Math.floor(this.position.y - (boxSize / 2)),
                 };
+
                 this.canvasContext.fillRect(
                     boxPosition.x,
                     boxPosition.y,
@@ -73,14 +97,61 @@
                 this.deltas.push(delta);
             },
             handleClick: function (event) {
-                this.changePosition(event.pageX, event.pageY);
+                if (this.mode === 'edit') {
+                    this.drawClick(event);
+                } else {
+                    this.startDragging(event);
+                }
+            },
+            startDragging: function (event) {
+                console.log('Starting drag.');
+                this.dragging = true;
+                this.dragStart = {
+                    x: event.pageX - this.mapPosition.x,
+                    y: event.pageY - this.mapPosition.y
+                };
+            },
+            stopDragging: function () {
+                if (this.dragging) {
+                    console.log('Ending drag.');
+                    this.dragging = false;
+                    this.dragStart = {};
+                }
+            },
+            drag: function (event) {
+                if (this.dragging) {
+                    this.findMapPosition();
+                    let position = {
+                        x: event.pageX - this.mapPosition.x,
+                        y: event.pageY - this.mapPosition.y
+                    };
+
+                    let translation = {
+                        x: position.x - this.dragStart.x,
+                        y: position.y - this.dragStart.y
+                    };
+                    console.log('Translating', translation.x, translation.y);
+                    this.canvasContext.translate(translation.x, translation.y);
+                    this.dragStart = position;
+                    this.redraw();
+                }
+            },
+            drawClick: function (event) {
+                this.changePosition(event.pageX - this.mapPosition.x, event.pageY - this.mapPosition.y);
                 this.draw();
             },
             changePosition: function (x, y) {
                 this.position = {
                     x: x,
                     y: y
-                }
+                };
+            },
+            drawLine: function (fromPoint, toPoint) {
+                console.log('Drawing from', fromPoint.x, fromPoint.y, 'to', toPoint.x, toPoint.y);
+                this.canvasContext.beginPath();
+                this.canvasContext.moveTo(fromPoint.x, fromPoint.y);
+                this.canvasContext.lineTo(toPoint.x, toPoint.y);
+                this.canvasContext.stroke();
             },
             undo: function () {
                 console.log('Removing last');
@@ -88,6 +159,60 @@
                 if (last) {
                     this.canvasContext.clearRect(last.position.x, last.position.y, last.size, last.size);
                 }
+            },
+            walk: function (path) {
+                path.toLowerCase()
+                    .split(/([enswud]{1,2}\d+)/i)
+                    .filter(segment => segment.length)
+                    .forEach((segment) => {
+                        let direction = segment.substr(0, segment.search(/\d/));
+                        let distance = segment.substr(segment.search(/\d/));
+                        console.log('Going', direction, distance);
+                        for (let pace = 0; pace < distance; pace++) {
+                            this.shiftDirection(direction);
+                            this.draw();
+                        }
+                    });
+            },
+            shiftDirection: function (direction) {
+                if (['n', 'ne', 'nw'].includes(direction)) {
+                    this.changePosition(this.position.x, this.position.y - (this.size * this.scale) - 2);
+                }
+                if (['e', 'ne', 'se'].includes(direction)) {
+                    this.changePosition(this.position.x + (this.size * this.scale) + 2, this.position.y);
+                }
+                if (['s', 'se', 'sw'].includes(direction)) {
+                    this.changePosition(this.position.x, this.position.y + (this.size * this.scale) + 2);
+                }
+                if (['w', 'sw', 'nw'].includes(direction)) {
+                    this.changePosition(this.position.x - (this.size * this.scale) - 2, this.position.y);
+                }
+            },
+            setMode: function (mode) {
+                this.mode = mode;
+                this.canvasCursor = this.mode === 'edit' ? 'auto' : 'move';
+            },
+            clearCanvas: function () {
+                this.canvasContext.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
+                this.canvasContext.save();
+                this.canvasContext.setTransform(1, 0, 0, 1, 0, 0);
+                this.canvasContext.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
+                this.canvasContext.restore();
+            },
+            redraw: function () {
+                this.clearCanvas();
+
+                let originalFillStyle = this.canvasContext.fillStyle;
+                this.deltas.forEach((delta) => {
+                    this.canvasContext.fillStyle = delta.color;
+                    this.canvasContext.fillRect(
+                        delta.position.x,
+                        delta.position.y,
+                        delta.size,
+                        delta.size
+                    );
+                });
+                this.canvasContext.fillStyle = originalFillStyle;
             }
         }
     }
@@ -95,12 +220,12 @@
 
 <style scoped>
     .ui.segment.map {
-        min-height: 20rem;
+        height: 40rem;
         overflow: hidden;
     }
 
     canvas {
         width: 100%;
-        min-height: 20rem
+        min-height: 40rem
     }
 </style>
