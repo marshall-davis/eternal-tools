@@ -6,7 +6,7 @@
         <div class="ui basic icon buttons">
             <div class="ui button"><i class="save icon"></i></div>
             <div class="ui button" @click="undo"><i class="undo icon"></i></div>
-            <div class="ui button"><i class="download icon"></i></div>
+            <div class="ui button"><i class="download icon" @click="download"></i></div>
         </div>
     </div>
 </template>
@@ -18,8 +18,10 @@
         name: "tools",
         methods: {
             undo: function () {
-                console.log('Undoing');
                 bus.$emit('undo');
+            },
+            download: function () {
+                bus.$emit('download');
             }
         }
     }

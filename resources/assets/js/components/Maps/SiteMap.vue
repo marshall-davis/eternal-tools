@@ -20,8 +20,11 @@
         },
         created() {
             bus.$on('undo', () => {
-                this.undo()
-            })
+                this.undo();
+            });
+            bus.$on('download', () => {
+                this.download();
+            });
         },
         mounted() {
             this.position = {
@@ -57,6 +60,14 @@
                     size: boxSize,
                     color: this.canvasContext.fillStyle
                 });
+            },
+            download: function () {
+                let link = document.createElement('a');
+                link.addEventListener('click', () => {
+                    link.href = this.$refs.canvas.toDataURL();
+                    link.download = "map.png";
+                }, false);
+                link.click();
             },
             addDelta: function (delta) {
                 this.deltas.push(delta);
