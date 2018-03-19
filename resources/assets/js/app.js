@@ -29,8 +29,11 @@ const vm = new Vue({
     }
 });
 
+let bus = new Vue();
+
 export {
-    vm
+    vm,
+    bus
 };
 
-require('./main')
+require('./main');

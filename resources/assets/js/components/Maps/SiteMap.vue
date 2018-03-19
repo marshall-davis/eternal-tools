@@ -5,6 +5,8 @@
 </template>
 
 <script>
+    import {bus} from '../../app'
+
     export default {
         name: "site-map",
         data: function () {
@@ -12,8 +14,14 @@
                 canvasContext: undefined,
                 position: {},
                 scale: 0.10,
-                size: 80
+                size: 80,
+                deltas: []
             }
+        },
+        created() {
+            bus.$on('undo', () => {
+                this.undo()
+            })
         },
         mounted() {
             this.position = {
@@ -29,21 +37,31 @@
         },
         methods: {
             draw: function () {
-                let boxSize = this.size * this.scale;
+                let boxSize = Math.floor(this.size * this.scale);
                 let mapPosition = {
                     y: this.$refs.canvas.getBoundingClientRect().top + window.pageYOffset,
                     x: this.$refs.canvas.getBoundingClientRect().left + window.pageXOffset
                 };
-                console.log(this.position.x, this.$refs.canvas.getBoundingClientRect().top);
+                let boxPosition = {
+                    x: Math.floor(Math.abs((this.position.x - mapPosition.x)) - (boxSize / 2)),
+                    y: Math.floor(Math.abs((this.position.y - mapPosition.y)) - (boxSize / 2)),
+                };
                 this.canvasContext.fillRect(
-                    Math.abs((this.position.x - mapPosition.x)) - (boxSize / 2),
-                    Math.abs((this.position.y - mapPosition.y)) - (boxSize / 2),
+                    boxPosition.x,
+                    boxPosition.y,
                     boxSize,
                     boxSize
                 );
+                this.addDelta({
+                    position: boxPosition,
+                    size: boxSize,
+                    color: this.canvasContext.fillStyle
+                });
+            },
+            addDelta: function (delta) {
+                this.deltas.push(delta);
             },
             handleClick: function (event) {
-                console.log('Map clicked.', event.pageX, event.pageY, event);
                 this.changePosition(event.pageX, event.pageY);
                 this.draw();
             },
@@ -51,6 +69,13 @@
                 this.position = {
                     x: x,
                     y: y
+                }
+            },
+            undo: function () {
+                console.log('Removing last');
+                let last = this.deltas.pop();
+                if (last) {
+                    this.canvasContext.clearRect(last.position.x, last.position.y, last.size, last.size);
                 }
             }
         }
@@ -62,6 +87,7 @@
         min-height: 20rem;
         overflow: hidden;
     }
+
     canvas {
         width: 100%;
         min-height: 20rem
