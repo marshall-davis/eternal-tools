@@ -1,6 +1,5 @@
 <template>
     <div>
-        So, you want to make a map? Buckle up.
         <tools></tools>
         <site-map></site-map>
     </div>
