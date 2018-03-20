@@ -1,4 +1,4 @@
-import {vm} from "./app";
+import {bus} from "./app";
 
 $(() => {
     $('.launch').on('click', function () {
@@ -6,7 +6,7 @@ $(() => {
     });
 
     $('#main-navigation').on('click', '.item:not(.header)', (event) => {
-        vm.page = $(event.currentTarget).data('page')
+        bus.$emit('navigate', $(event.currentTarget).data('page'));
         $('.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
     });
 });
