@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BackstorySkill extends Model
+class Map extends Model
 {
-    protected $table = 'backstory_skills';
+    protected $table = 'maps';
     protected $guarded = [
         'id',
     ];

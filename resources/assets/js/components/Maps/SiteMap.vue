@@ -10,6 +10,12 @@
 
     export default {
         name: "site-map",
+        props: {
+            mapId: {
+                type: String,
+                default: undefined
+            }
+        },
         data: function () {
             return {
                 canvasContext: undefined,
@@ -21,7 +27,12 @@
                 canvasCursor: 'auto',
                 mode: 'edit',
                 dragging: false,
-                dragStart: {}
+                dragStart: {},
+                map: this.mapId,
+                totalTranslation: {
+                    x: 0,
+                    y: 0
+                }
             }
         },
         computed: {
@@ -40,6 +51,9 @@
                 this.walk(path);
             });
             bus.$on('mode', mode => this.setMode(mode));
+            bus.$on('save-map', () => {
+                this.save();
+            });
         },
         mounted() {
             Vue.nextTick(() => {
@@ -50,13 +64,19 @@
                 this.findMapPosition();
 
                 Vue.nextTick(() => {
-                    console.log('Canvas width', this.$refs.canvas.width, Math.floor(this.$refs.canvas.width / 2), 'Canvas height', this.$refs.canvas.height, Math.floor(this.$refs.canvas.height / 2));
-                    console.log('Canvas at', this.mapPosition.x, this.mapPosition.y);
                     this.changePosition(
                         Math.floor((this.$refs.canvas.width / 2)),
                         Math.floor((this.$refs.canvas.height / 2))
                     );
                 });
+
+                if (this.mapId) {
+                    axios.get('/api/maps/' + this.mapId).then(response => {
+                        console.log(response.data);
+                        this.deltas = JSON.parse(response.data.steps);
+                        this.redraw();
+                    });
+                }
             });
         },
         methods: {
@@ -104,7 +124,6 @@
                 }
             },
             startDragging: function (event) {
-                console.log('Starting drag.');
                 this.dragging = true;
                 this.dragStart = {
                     x: event.pageX - this.mapPosition.x,
@@ -113,7 +132,6 @@
             },
             stopDragging: function () {
                 if (this.dragging) {
-                    console.log('Ending drag.');
                     this.dragging = false;
                     this.dragStart = {};
                 }
@@ -130,14 +148,21 @@
                         x: position.x - this.dragStart.x,
                         y: position.y - this.dragStart.y
                     };
-                    console.log('Translating', translation.x, translation.y);
+
                     this.canvasContext.translate(translation.x, translation.y);
+                    this.totalTranslation = {
+                        x: this.totalTranslation.x + translation.x,
+                        y: this.totalTranslation.y + translation.y
+                    };
                     this.dragStart = position;
                     this.redraw();
                 }
             },
             drawClick: function (event) {
-                this.changePosition(event.pageX - this.mapPosition.x, event.pageY - this.mapPosition.y);
+                this.changePosition(
+                    event.pageX - this.mapPosition.x - this.totalTranslation.x,
+                    event.pageY - this.mapPosition.y - this.totalTranslation.y
+                );
                 this.draw();
             },
             changePosition: function (x, y) {
@@ -213,6 +238,34 @@
                     );
                 });
                 this.canvasContext.fillStyle = originalFillStyle;
+            },
+            save: function () {
+                if (this.map) {
+                    this.update();
+                } else {
+                    this.create();
+                }
+            },
+            create: function () {
+                axios.post('/api/maps', {
+                    steps: JSON.stringify(this.deltas),
+                    map: this.map
+                }).then((response) => {
+                    this.map = response.data.id;
+                    history.replaceState(
+                        {
+                            view: 'map-creator',
+                            map: response.data.id
+                        },
+                        '',
+                        '/map-creator?map=' + response.data.id
+                    );
+                });
+            },
+            update: function () {
+                axios.put('/api/maps/' + this.map, {
+                    steps: JSON.stringify(this.deltas),
+                }).then((response) => {});
             }
         }
     }

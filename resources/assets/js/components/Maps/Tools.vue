@@ -3,10 +3,12 @@
         <div class="ui raised segment">
             <div class="ui header">Mapping Tools</div>
             <div class="ui divider"></div>
-            <button class="ui icon basic walk button"><i class="blind icon"></i></button>
             <div class="ui basic icon buttons">
-                <div class="ui save map button"><i class="save icon"></i></div>
+                <div class="ui icon basic walk button"><i class="blind icon"></i></div>
                 <div class="ui button" @click="undo"><i class="undo icon"></i></div>
+            </div>
+            <div class="ui basic icon buttons">
+                <div class="ui save map button" @click="save"><i class="save icon"></i></div>
                 <div class="ui button" @click="download"><i class="download icon"></i></div>
             </div>
             <div class="ui icon basic buttons">
@@ -63,6 +65,9 @@
                 $(event.currentTarget).addClass('active');
 
                 bus.$emit('mode', mode);
+            },
+            save: function () {
+                bus.$emit('save-map');
             }
         }
     }

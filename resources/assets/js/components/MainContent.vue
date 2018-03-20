@@ -1,5 +1,5 @@
 <template>
-    <component :is="view"></component>
+    <component :is="view" :route-id="routeId"></component>
 </template>
 
 <script>
@@ -11,6 +11,10 @@
             viewProp: {
                 type: String,
                 default: 'welcome'
+            },
+            routeId: {
+                type: String,
+                default: undefined
             }
         },
         data: function () {
@@ -19,13 +23,21 @@
             }
         },
         created() {
-            history.replaceState({view: this.view}, '', this.view);
+            history.replaceState(
+                {
+                    view: this.view,
+                    routeId: this.routeId
+                },
+                '',
+                this.view
+            );
             bus.$on('navigate', (view) => {
                 this.view = view;
                 this.pushHistory(this.view);
             });
             window.onpopstate = (event) => {
                 this.view = event.state.view;
+                this.routeId = event.state.routeId
             }
         },
         methods: {

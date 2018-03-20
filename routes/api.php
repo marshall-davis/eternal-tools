@@ -17,3 +17,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/backstories', 'BackstoryController@index');
+Route::post('/maps', 'MapsController@create');
+Route::put('/maps/{map}', 'MapsController@update');
+Route::get('/maps/{map}', 'MapsController@get');
