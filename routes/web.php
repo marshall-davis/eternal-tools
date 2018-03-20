@@ -13,6 +13,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{view?}', function ($view = 'welcome') {
-    return view('layout')->with(['view' => $view]);
+Route::get('/{view?}', function (\Illuminate\Http\Request $request, $view = 'welcome') {
+    return view('layout')->with([
+        'view'    => $view,
+        'routeId' => $request->input('map'),
+    ]);
 });
