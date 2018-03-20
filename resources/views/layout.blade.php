@@ -37,7 +37,7 @@
 <div class="pusher" id="app">
     <div class="ui container" style="margin-top: 1rem; margin-bottom: 3rem;">
         <site-header></site-header>
-        <component :is="page"></component>
+        <main-content view-prop="{{ $view }}"></main-content>
         <site-footer></site-footer>
     </div>
 </div>
