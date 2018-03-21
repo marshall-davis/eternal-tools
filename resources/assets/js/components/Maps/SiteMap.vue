@@ -109,7 +109,6 @@
                 let getMax = (dimension) => {
                     let max = 0;
                     this.deltas.forEach((delta) => {
-                        console.log(delta);
                         max = max < delta.position[dimension] ? delta.position[dimension] : max;
                     });
 
@@ -118,7 +117,6 @@
                 let getMin = (dimension) => {
                     let min = 0;
                     this.deltas.forEach((delta) => {
-                        console.log(delta);
                         min = min > delta.position[dimension] ? delta.position[dimension] : min;
                     });
 
