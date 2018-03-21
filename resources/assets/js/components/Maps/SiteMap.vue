@@ -106,9 +106,12 @@
                 });
             },
             download: function () {
+                let new_canvas = document.createElement('<canvas>');
+                let new_context = new_canvas.getContext('2d');
+                this.redraw(new_context);
                 let link = document.createElement('a');
                 link.addEventListener('click', () => {
-                    link.href = this.$refs.canvas.toDataURL();
+                    link.href = new_canvas.toDataURL();
                     link.download = "map.png";
                 }, false);
                 link.click();
