@@ -108,6 +108,7 @@
             download: function () {
                 let new_canvas = document.createElement('canvas');
                 let new_context = new_canvas.getContext('2d');
+                $('.ui.container').append(new_canvas);
                 this.redraw(new_context);
                 // let link = document.createElement('a');
                 // console.log(new_canvas, new_context, link);
@@ -119,7 +120,7 @@
                 // link.appendChild(document.createTextNode('Hello'));
                 // $('.ui.container').append($(link));
                 let $img = $('<img>');
-                $('.ui.container').append(new_canvas);
+
                 $img.attr('src', new_canvas.toDataURL());
                 $('.ui.container').append($img);
                 console.log('Appended image!', $img)
