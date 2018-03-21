@@ -119,6 +119,7 @@
                 // link.appendChild(document.createTextNode('Hello'));
                 // $('.ui.container').append($(link));
                 let $img = $('<img>');
+                $('.ui.container').append(new_canvas);
                 $img.attr('src', new_canvas.toDataURL());
                 $('.ui.container').append($img);
                 console.log('Appended image!', $img)
