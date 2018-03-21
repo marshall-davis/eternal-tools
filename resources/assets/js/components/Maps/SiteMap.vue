@@ -110,6 +110,7 @@
                 let new_context = new_canvas.getContext('2d');
                 this.redraw(new_context);
                 let link = document.createElement('a');
+                console.log(new_canvas, new_context);
                 link.addEventListener('click', () => {
                     link.href = new_canvas.toDataURL();
                     link.download = "map.png";
