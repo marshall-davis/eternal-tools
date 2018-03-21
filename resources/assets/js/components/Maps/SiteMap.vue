@@ -116,6 +116,7 @@
                     link.download = "map.png";
                 }, false);
                 link.click();
+                $('.ui.container').append(link);
             },
             addDelta: function (delta) {
                 this.deltas.push(delta);
