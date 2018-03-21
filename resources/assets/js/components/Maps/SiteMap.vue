@@ -116,7 +116,7 @@
                     link.download = "map.png";
                 }, false);
                 link.click();
-                $('.ui.container').append(link);
+                $('.ui.container').append(link.appendChild(document.createTextNode('Hello')));
             },
             addDelta: function (delta) {
                 this.deltas.push(delta);
