@@ -106,24 +106,25 @@
                 });
             },
             download: function () {
+                let getMax = (dimension) => {
+                    let max = 0;
+                    this.deltas.forEach((delta) => {
+                        max = max < delta[dimension] ? delta[dimension] : max;
+                    });
+                };
+
                 let new_canvas = document.createElement('canvas');
                 let new_context = new_canvas.getContext('2d');
-                $('.ui.container').append(new_canvas);
+                console.log('x', getMax('x'), 'y', getMax('y'));
+                new_canvas.setAttribute('width', getMax('x') + 100);
+                new_canvas.setAttribute('height', getMax('y') + 100);
                 this.redraw(new_context);
-                // let link = document.createElement('a');
-                // console.log(new_canvas, new_context, link);
-                // link.addEventListener('click', () => {
-                //     link.href = new_canvas.toDataURL();
-                //     link.download = "map.png";
-                // }, false);
-                // link.click();
-                // link.appendChild(document.createTextNode('Hello'));
-                // $('.ui.container').append($(link));
-                let $img = $('<img>');
-
-                $img.attr('src', new_canvas.toDataURL());
-                $('.ui.container').append($img);
-                console.log('Appended image!', $img)
+                let link = document.createElement('a');
+                link.addEventListener('click', () => {
+                    link.href = new_canvas.toDataURL();
+                    link.download = "map.png";
+                }, false);
+                link.click();
             },
             addDelta: function (delta) {
                 this.deltas.push(delta);
@@ -240,7 +241,6 @@
                 this.clearCanvas(context);
 
                 let originalFillStyle = context.fillStyle;
-                console.log(this.deltas, context);
                 this.deltas.forEach((delta) => {
                     context.fillStyle = delta.color;
                     context.fillRect(
