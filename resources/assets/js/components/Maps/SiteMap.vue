@@ -124,15 +124,15 @@
 
                 let new_canvas = document.createElement('canvas');
                 let new_context = new_canvas.getContext('2d');
-                let minX = getMin('x');
-                let minY = getMin('y');
+                // let minX = getMin('x');
+                // let minY = getMin('y');
 
-                new_canvas.setAttribute('width', getMax('x') + Math.abs(minX) + 100);
-                new_canvas.setAttribute('height', getMax('y') + Math.abs(minY) + 100);
-                console.log('Canvas now', new_canvas.width, new_canvas.height);
+                // new_canvas.setAttribute('width', getMax('x') + Math.abs(minX) + 100);
+                // new_canvas.setAttribute('height', getMax('y') + Math.abs(minY) + 100);
+                // console.log('Canvas now', new_canvas.width, new_canvas.height);
                 this.redraw(new_context);
-                console.log('Drawn, translating...');
-                new_context.translate(Math.abs(minX) + 100, Math.abs(minY) + 100);
+                // console.log('Drawn, translating...');
+                // new_context.translate(Math.abs(minX) + 100, Math.abs(minY) + 100);
                 let data = new_canvas.toDataURL();
                 console.log(data);
                 let link = document.createElement('a');
