@@ -110,18 +110,29 @@
                     let max = 0;
                     this.deltas.forEach((delta) => {
                         console.log(delta);
-                        console.log('Is', max, 'less than', delta.position[dimension]);
                         max = max < delta.position[dimension] ? delta.position[dimension] : max;
                     });
 
                     return max;
                 };
+                let getMin = (dimension) => {
+                    let min = 0;
+                    this.deltas.forEach((delta) => {
+                        console.log(delta);
+                        min = min > delta.position[dimension] ? delta.position[dimension] : min;
+                    });
+
+                    return min;
+                };
 
                 let new_canvas = document.createElement('canvas');
                 let new_context = new_canvas.getContext('2d');
-                console.log('x', getMax('x'), 'y', getMax('y'));
-                new_canvas.setAttribute('width', getMax('x') + 100);
-                new_canvas.setAttribute('height', getMax('y') + 100);
+                let minX = getMin('x');
+                let minY = getMin('y');
+
+                new_canvas.setAttribute('width', getMax('x') + minX + 100);
+                new_canvas.setAttribute('height', getMax('y') + minY + 100);
+                new_canvas.translate(minX + 100, minY + 100);
                 this.redraw(new_context);
                 let link = document.createElement('a');
                 link.addEventListener('click', () => {
