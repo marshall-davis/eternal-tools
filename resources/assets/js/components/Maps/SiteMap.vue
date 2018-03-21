@@ -132,7 +132,7 @@
 
                 new_canvas.setAttribute('width', getMax('x') + minX + 100);
                 new_canvas.setAttribute('height', getMax('y') + minY + 100);
-                new_canvas.translate(minX + 100, minY + 100);
+                new_context.translate(minX + 100, minY + 100);
                 this.redraw(new_context);
                 let link = document.createElement('a');
                 link.addEventListener('click', () => {
