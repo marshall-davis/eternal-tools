@@ -238,7 +238,7 @@
                 this.clearCanvas(context);
 
                 let originalFillStyle = context.fillStyle;
-                console.log(this.deltas);
+                console.log(this.deltas, context);
                 this.deltas.forEach((delta) => {
                     context.fillStyle = delta.color;
                     context.fillRect(
