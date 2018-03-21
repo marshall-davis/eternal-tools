@@ -110,8 +110,8 @@
                     let max = 0;
                     this.deltas.forEach((delta) => {
                         console.log(delta);
-                        console.log('Is', max, 'less than', delta[dimension]);
-                        max = max < delta[dimension] ? delta[dimension] : max;
+                        console.log('Is', max, 'less than', delta.position[dimension]);
+                        max = max < delta.position[dimension] ? delta.position[dimension] : max;
                     });
 
                     return max;
