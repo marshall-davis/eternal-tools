@@ -74,7 +74,7 @@
                     axios.get('/api/maps/' + this.mapId).then(response => {
                         console.log(response.data);
                         this.deltas = JSON.parse(response.data.steps);
-                        this.redraw();
+                        this.redraw(this.canvasContext);
                     });
                 }
             });
@@ -155,7 +155,7 @@
                         y: this.totalTranslation.y + translation.y
                     };
                     this.dragStart = position;
-                    this.redraw();
+                    this.redraw(this.canvasContext);
                 }
             },
             drawClick: function (event) {
@@ -217,27 +217,27 @@
                 this.mode = mode;
                 this.canvasCursor = this.mode === 'edit' ? 'auto' : 'move';
             },
-            clearCanvas: function () {
-                this.canvasContext.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
-                this.canvasContext.save();
-                this.canvasContext.setTransform(1, 0, 0, 1, 0, 0);
-                this.canvasContext.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
-                this.canvasContext.restore();
+            clearCanvas: function (context) {
+                context.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
+                context.save();
+                context.setTransform(1, 0, 0, 1, 0, 0);
+                context.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
+                context.restore();
             },
-            redraw: function () {
+            redraw: function (context) {
                 this.clearCanvas();
 
-                let originalFillStyle = this.canvasContext.fillStyle;
+                let originalFillStyle = context.fillStyle;
                 this.deltas.forEach((delta) => {
-                    this.canvasContext.fillStyle = delta.color;
-                    this.canvasContext.fillRect(
+                    context.fillStyle = delta.color;
+                    context.fillRect(
                         delta.position.x,
                         delta.position.y,
                         delta.size,
                         delta.size
                     );
                 });
-                this.canvasContext.fillStyle = originalFillStyle;
+                context.fillStyle = originalFillStyle;
             },
             save: function () {
                 if (this.map) {
