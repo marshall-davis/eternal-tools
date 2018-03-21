@@ -109,15 +109,15 @@
                 let new_canvas = document.createElement('canvas');
                 let new_context = new_canvas.getContext('2d');
                 this.redraw(new_context);
-                let link = document.createElement('a');
-                console.log(new_canvas, new_context, link);
-                link.addEventListener('click', () => {
-                    link.href = new_canvas.toDataURL();
-                    link.download = "map.png";
-                }, false);
-                link.click();
-                link.appendChild(document.createTextNode('Hello'));
-                $('.ui.container').append($(link));
+                // let link = document.createElement('a');
+                // console.log(new_canvas, new_context, link);
+                // link.addEventListener('click', () => {
+                //     link.href = new_canvas.toDataURL();
+                //     link.download = "map.png";
+                // }, false);
+                // link.click();
+                // link.appendChild(document.createTextNode('Hello'));
+                // $('.ui.container').append($(link));
                 let  $img = $('img');
                 $img.attr('src', new_canvas.toDataURL());
                 $('.ui.container').append($img);
