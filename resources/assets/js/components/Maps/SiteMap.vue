@@ -228,7 +228,7 @@
                 context.restore();
             },
             redraw: function (context) {
-                this.clearCanvas();
+                this.clearCanvas(context);
 
                 let originalFillStyle = context.fillStyle;
                 this.deltas.forEach((delta) => {
