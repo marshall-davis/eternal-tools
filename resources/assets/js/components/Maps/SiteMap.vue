@@ -118,9 +118,10 @@
                 // link.click();
                 // link.appendChild(document.createTextNode('Hello'));
                 // $('.ui.container').append($(link));
-                let  $img = $('img');
+                let $img = $('img');
                 $img.attr('src', new_canvas.toDataURL());
                 $('.ui.container').append($img);
+                console.log('Appended image!', $img)
             },
             addDelta: function (delta) {
                 this.deltas.push(delta);
