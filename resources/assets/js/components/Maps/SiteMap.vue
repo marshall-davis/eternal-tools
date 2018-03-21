@@ -38,6 +38,9 @@
         computed: {
             style: function () {
                 return 'cursor: ' + this.canvasCursor + ';';
+            },
+            roomSize: function () {
+                return Math.floor(this.size * this.scale);
             }
         },
         created() {
@@ -54,6 +57,9 @@
             bus.$on('save-map', () => {
                 this.save();
             });
+            bus.$on('set-scale', scale => {
+                this.scaleTo(scale);
+            })
         },
         mounted() {
             Vue.nextTick(() => {
@@ -68,6 +74,8 @@
                         Math.floor((this.$refs.canvas.width / 2)),
                         Math.floor((this.$refs.canvas.height / 2))
                     );
+
+                    this.draw();
                 });
 
                 if (this.mapId) {
@@ -87,23 +95,17 @@
                 };
             },
             draw: function () {
-                let boxSize = Math.floor(this.size * this.scale);
                 let boxPosition = {
-                    x: Math.floor(this.position.x - (boxSize / 2)),
-                    y: Math.floor(this.position.y - (boxSize / 2)),
+                    x: Math.floor(this.position.x - (this.roomSize / 2)),
+                    y: Math.floor(this.position.y - (this.roomSize / 2)),
                 };
 
                 this.canvasContext.fillRect(
                     boxPosition.x,
                     boxPosition.y,
-                    boxSize,
-                    boxSize
+                    this.roomSize,
+                    this.roomSize
                 );
-                this.addDelta({
-                    position: boxPosition,
-                    size: boxSize,
-                    color: this.canvasContext.fillStyle
-                });
             },
             download: function () {
                 let link = document.createElement('a');
@@ -163,6 +165,12 @@
                     event.pageX - this.mapPosition.x - this.totalTranslation.x,
                     event.pageY - this.mapPosition.y - this.totalTranslation.y
                 );
+                this.addDelta({
+                    position: this.position,
+                    size: this.size,
+                    color: this.canvasContext.fillStyle,
+                    path: undefined
+                });
                 this.draw();
             },
             changePosition: function (x, y) {
@@ -186,15 +194,19 @@
                 }
             },
             walk: function (path) {
-                path.toLowerCase()
-                    .split(/([enswud]{1,2}\d+)/i)
+                path.split(/([enswud]{1,2}\d+)/i)
                     .filter(segment => segment.length)
                     .forEach((segment) => {
                         let direction = segment.substr(0, segment.search(/\d/));
                         let distance = segment.substr(segment.search(/\d/));
-                        console.log('Going', direction, distance);
                         for (let pace = 0; pace < distance; pace++) {
                             this.shiftDirection(direction);
+                            this.addDelta({
+                                position: this.position,
+                                size: this.size,
+                                color: this.canvasContext.fillStyle,
+                                path: undefined
+                            });
                             this.draw();
                         }
                     });
@@ -228,16 +240,19 @@
                 this.clearCanvas();
 
                 let originalFillStyle = this.canvasContext.fillStyle;
+                let originalSize = this.size;
                 this.deltas.forEach((delta) => {
                     this.canvasContext.fillStyle = delta.color;
-                    this.canvasContext.fillRect(
-                        delta.position.x,
-                        delta.position.y,
-                        delta.size,
-                        delta.size
-                    );
+                    this.changePosition(delta.position.x, delta.position.y);
+                    this.size = delta.size;
+                    if (delta.path) {
+                        this.walk(delta.path);
+                    } else {
+                        this.draw();
+                    }
                 });
                 this.canvasContext.fillStyle = originalFillStyle;
+                this.size = originalSize;
             },
             save: function () {
                 if (this.map) {
@@ -266,6 +281,10 @@
                 axios.put('/api/maps/' + this.map, {
                     steps: JSON.stringify(this.deltas),
                 }).then((response) => {});
+            },
+            scaleTo: function (scale) {
+                this.scale = scale;
+                this.redraw();
             }
         }
     }
