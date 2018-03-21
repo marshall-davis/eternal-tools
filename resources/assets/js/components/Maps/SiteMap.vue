@@ -133,9 +133,11 @@
                 this.redraw(new_context);
                 console.log('Drawn, translating...');
                 new_context.translate(Math.abs(minX) + 100, Math.abs(minY) + 100);
+                let data = new_canvas.toDataURL();
+                console.log(data);
                 let link = document.createElement('a');
                 link.addEventListener('click', () => {
-                    link.href = new_canvas.toDataURL();
+                    link.href = data;
                     link.download = "map.png";
                 }, false);
                 console.log('Data', link.getAttribute('href'));
