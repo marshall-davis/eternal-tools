@@ -106,7 +106,7 @@
                 });
             },
             download: function () {
-                let new_canvas = document.createElement('<canvas>');
+                let new_canvas = document.createElement('canvas');
                 let new_context = new_canvas.getContext('2d');
                 this.redraw(new_context);
                 let link = document.createElement('a');
