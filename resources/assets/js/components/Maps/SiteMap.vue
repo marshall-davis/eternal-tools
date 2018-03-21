@@ -111,6 +111,8 @@
                     this.deltas.forEach((delta) => {
                         max = max < delta[dimension] ? delta[dimension] : max;
                     });
+
+                    return max;
                 };
 
                 let new_canvas = document.createElement('canvas');
