@@ -72,7 +72,6 @@
 
                 if (this.mapId) {
                     axios.get('/api/maps/' + this.mapId).then(response => {
-                        console.log(response.data);
                         this.deltas = JSON.parse(response.data.steps);
                         this.redraw(this.canvasContext);
                     });
@@ -198,15 +197,14 @@
                 };
             },
             drawLine: function (fromPoint, toPoint) {
-                console.log('Drawing from', fromPoint.x, fromPoint.y, 'to', toPoint.x, toPoint.y);
                 this.canvasContext.beginPath();
                 this.canvasContext.moveTo(fromPoint.x, fromPoint.y);
                 this.canvasContext.lineTo(toPoint.x, toPoint.y);
                 this.canvasContext.stroke();
             },
             undo: function () {
-                console.log('Removing last');
                 let last = this.deltas.pop();
+
                 if (last) {
                     this.canvasContext.clearRect(last.position.x, last.position.y, last.size, last.size);
                 }
@@ -218,7 +216,7 @@
                     .forEach((segment) => {
                         let direction = segment.substr(0, segment.search(/\d/));
                         let distance = segment.substr(segment.search(/\d/));
-                        console.log('Going', direction, distance);
+
                         for (let pace = 0; pace < distance; pace++) {
                             this.shiftDirection(direction);
                             this.draw();
