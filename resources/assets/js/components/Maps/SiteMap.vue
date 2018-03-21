@@ -133,14 +133,11 @@
                 this.redraw(new_context);
                 // console.log('Drawn, translating...');
                 // new_context.translate(Math.abs(minX) + 100, Math.abs(minY) + 100);
-                let data = new_canvas.toDataURL();
-                console.log(data);
                 let link = document.createElement('a');
                 link.addEventListener('click', () => {
-                    link.href = data;
+                    link.href = new_canvas.toDataURL();
                     link.download = "map.png";
                 }, false);
-                console.log('Data', link.getAttribute('href'));
                 link.click();
             },
             addDelta: function (delta) {
