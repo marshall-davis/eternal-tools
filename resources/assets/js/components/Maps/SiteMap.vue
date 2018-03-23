@@ -2,6 +2,7 @@
     <div class="ui segment map">
         <canvas id="map-canvas" ref="canvas" :style="style" v-on:mousedown="handleClick" v-on:mousemove="drag"
                 v-on:mouseup="stopDragging"></canvas>
+        <map-image :deltas="deltas"></map-image>
     </div>
 </template>
 
@@ -48,9 +49,6 @@
             bus.$on('undo', () => {
                 this.undo();
             });
-            bus.$on('download', () => {
-                this.download();
-            });
             bus.$on('walk', (path) => {
                 this.walk(path);
             });
@@ -90,7 +88,6 @@
 
                 if (this.mapId) {
                     axios.get('/api/maps/' + this.mapId).then(response => {
-                        console.log(response.data);
                         this.deltas = JSON.parse(response.data.steps);
                         this.redraw();
                     });
@@ -116,14 +113,6 @@
                     this.roomSize,
                     this.roomSize
                 );
-            },
-            download: function () {
-                let link = document.createElement('a');
-                link.addEventListener('click', () => {
-                    link.href = this.$refs.canvas.toDataURL();
-                    link.download = "map.png";
-                }, false);
-                link.click();
             },
             addDelta: function (delta) {
                 this.deltas.push(delta);
@@ -161,13 +150,12 @@
                         y: position.y - this.dragStart.y
                     };
 
-                    console.log('Translating', translation);
                     this.canvasContext.translate(translation.x, translation.y);
                     this.totalTranslation = {
                         x: this.totalTranslation.x + translation.x,
                         y: this.totalTranslation.y + translation.y
                     };
-                    console.log('Total Translation', this.totalTranslation);
+
                     this.dragStart = position;
                     this.redraw();
                 }
@@ -274,7 +262,7 @@
                 this.markPosition();
             },
             markPosition: function () {
-                console.log(this.position.x, this.position.y)
+                // console.log(this.position.x, this.position.y)
             },
             drawLine: function (fromPoint, toPoint, color) {
                 console.log('Drawing from', fromPoint.x, fromPoint.y, 'to', toPoint.x, toPoint.y);
@@ -409,6 +397,9 @@
                 this.scale = scale;
                 this.redraw();
             }
+        },
+        components: {
+            'map-image': Vue.component('map-image', function (resolve) {require(['./MapImage'], resolve);})
         }
     }
 </script>
