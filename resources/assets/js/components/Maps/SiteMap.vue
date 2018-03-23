@@ -60,6 +60,9 @@
             });
             bus.$on('set-scale', scale => {
                 this.scaleTo(scale);
+            });
+            bus.$on('set-color', color => {
+                this.canvasContext.fillStyle = color;
             })
         },
         mounted() {
@@ -67,7 +70,7 @@
                 this.$refs.canvas.width = this.$refs.canvas.offsetWidth;
                 this.$refs.canvas.height = this.$refs.canvas.offsetHeight;
                 this.canvasContext = this.$refs.canvas.getContext('2d');
-                this.canvasContext.fillStyle = 'green';
+                this.canvasContext.fillStyle = '#698e6c';
                 this.findMapPosition();
 
                 Vue.nextTick(() => {
@@ -102,7 +105,6 @@
                 };
             },
             draw: function () {
-                console.log('Drawing at', this.position.x, this.position.y);
                 let boxPosition = {
                     x: Math.floor(this.position.x - (this.roomSize / 2)),
                     y: Math.floor(this.position.y - (this.roomSize / 2)),
