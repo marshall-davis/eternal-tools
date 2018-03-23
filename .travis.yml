@@ -2,7 +2,6 @@ language: php
 services:
   - postgresql
 php:
-  - '7.0'
   - '7.1'
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
