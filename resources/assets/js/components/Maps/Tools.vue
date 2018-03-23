@@ -37,8 +37,40 @@
                     </div>
                 </div>
             </div>
+            <div class="ui icon basic buttons">
+                <div class="ui icon basic button" ref="color">
+                    <i class="stop icon" :style="'color: ' + this.color + ';'"></i>
+                </div>
+            </div>
         </div>
-        <div class="ui walk special popup top center">
+        <div class="ui color special popup bottom center">
+            <div class="ui equal width grid">
+                <div class="equal width row">
+                    <div class="column">
+                        <div class="ui icon basic button" data-tooltip="Forest" @click="setColor('#698e6c')">
+                            <i class="stop icon" style="color: #698e6c"></i>
+                        </div>
+                        <div class="ui icon basic button" data-tooltip="Grass" @click="setColor('#caca80')">
+                            <i class="stop icon" style="color: #caca80"></i>
+                        </div>
+                        <div class="ui icon basic button" data-tooltip="Road" @click="setColor('#bdbdbd')">
+                            <i class="stop icon" style="color: #bdbdbd"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="equal width row">
+                    <div class="column">
+                        <div class="ui labeled input">
+                            <div class="ui label">
+                                Custom
+                            </div>
+                            <input type="text" v-model="color" :placeholder="color" @blur="setColor()" @keyup.enter="hideColorControl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui walk special popup bottom center">
             <div>Enter the path in the format you would use for the <em>walk</em> command.</div>
             <div class="ui action input">
                 <input id="walk" type="text" value="" placeholder="e 2 n 4 ne 3" @keyup.enter="doWalk">
@@ -61,16 +93,22 @@
             $(this.$refs.walk).popup({
                 popup: $('.walk.popup'),
                 on: 'click',
-                position: 'top center',
+                position: 'bottom center',
                 onVisible: () => {
                     $('#walk').focus();
                 }
+            });
+            $(this.$refs.color).popup({
+                popup: $('.color.popup'),
+                on: 'click',
+                position: 'bottom center',
             });
             $(this.$refs.scale).dropdown();
         },
         data: function () {
             return {
-                scale: 0.10
+                scale: 0.10,
+                color: '#698e6c'
             }
         },
         computed: {
@@ -104,6 +142,14 @@
             setScale: function (event) {
                 this.scale = $(event.currentTarget).data('value');
                 bus.$emit('set-scale', this.scale);
+            },
+            hideColorControl: function () {
+                $(this.$refs.color).popup('hide');
+            },
+            setColor: function (color) {
+                this.color = color || this.color;
+                bus.$emit('set-color', this.color);
+                this.hideColorControl();
             }
         }
     }
