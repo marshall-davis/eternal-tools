@@ -26,6 +26,8 @@ Vue.component('site-header', require('./components/SiteHeader'));
 Vue.component('welcome', require('./components/Welcome'));
 Vue.component('site-footer', require('./components/SiteFooter'));
 Vue.component('main-content', require('./components/MainContent'));
+Vue.component('report-modal', require('./components/ReportModal'));
+
 Vue.component('backstory-generator', function (resolve) {require(['./components/Characters/BackstoryGenerator'], resolve);});
 Vue.component('map-creator', function (resolve) {require(['./components/Maps/MapCreator'], resolve);});
 
