@@ -11,34 +11,14 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body class="pushable">
-{{-- Should be a component: Navigation --}}
-<div class="ui left vertical inverted menu sidebar" id="main-navigation">
-    <div class="header item">
-        <h2 class="ui header">Maps</h2>
-    </div>
-    <div class="item" data-page="map-creator">
-        Map Creator
-    </div>
-    <div class="header item">
-        <h2 class="ui header">Skills</h2>
-    </div>
-    <div class="header item">
-        <h2 class="ui header">Characters</h2>
-    </div>
-    <div class="item" data-page="backstory-generator">
-        Back-story Generator
-    </div>
-</div>
-<div class="ui black big launch fixed right attached button"
-     style="padding: 0.75em; position: fixed; top: 2.5em; left: 0;">
-    <i class="content icon" style="margin: 0;"></i>
-</div>
-{{-- End Component: Navigation --}}
+@component('menu')
+@endcomponent
 <div class="pusher" id="app">
     <div class="ui container" style="margin-top: 1rem; margin-bottom: 3rem;">
         <site-header></site-header>
         <main-content view-prop="{{ $view }}" route-id="{{ $routeId }}"></main-content>
         <site-footer v-if="false"></site-footer>
+        <report-modal></report-modal>
     </div>
 </div>
 </body>
