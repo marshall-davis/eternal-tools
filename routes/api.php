@@ -20,3 +20,4 @@ Route::get('/backstories', 'BackstoryController@index');
 Route::post('/maps', 'MapsController@create');
 Route::put('/maps/{map}', 'MapsController@update');
 Route::get('/maps/{map}', 'MapsController@get');
+Route::post('/tickets', 'TicketController@create');
