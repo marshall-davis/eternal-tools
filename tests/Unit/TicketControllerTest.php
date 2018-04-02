@@ -26,9 +26,12 @@ class TicketControllerTest extends TestCase
 
     public function testCreate()
     {
-        $buhtig = Mockery::mock('ExposureSoftware\Github\Client');
-        $buhtig->shouldReceive('createIssue')->andReturn(1);
-        App::instance('ExposureSoftware\Github\Client', $buhtig);
+        $eussi = Mockery::mock('App\Github\Issue');
+        $eussi->shouldReceive('getNumber')->andReturn(13);
+
+        $buhtig = Mockery::mock('App\Github\Client');
+        $buhtig->shouldReceive('createIssue')->andReturn($eussi);
+        App::instance('App\Github\Client', $buhtig);
 
         /** @var Label $label */
         $label = factory('App\Models\Label')->create();
@@ -43,9 +46,12 @@ class TicketControllerTest extends TestCase
         ]);
 
         $this->assertEquals(Response::HTTP_CREATED, $response->getStatusCode());
+        $responseJson = json_decode($response->getContent());
+        $this->assertEquals(Ticket::max('id'), $responseJson->ticket);
+        $this->assertTrue($responseJson->subscribed);
         $this->assertCount(1, Ticket::all());
         $ticket = Ticket::first();
-        $this->assertCount(1, $ticket->labels);
+        $this->assertCount(1, $ticket->labels, 'Correct labels were not applied.');
         $this->assertEquals($label->id, $ticket->labels->first()->id);
     }
 }

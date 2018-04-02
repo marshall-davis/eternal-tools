@@ -42,7 +42,7 @@ class Client
      * @param string          $body
      * @param Collection|null $labels
      *
-     * @return int
+     * @return Issue
      */
     public function createIssue(string $title, string $body, Collection $labels = null)
     {
@@ -58,7 +58,7 @@ class Client
             ]
         )->getBody());
 
-        return $issue->getNumber();
+        return $issue;
     }
 
     /**
