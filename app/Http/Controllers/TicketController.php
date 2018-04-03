@@ -35,7 +35,8 @@ class TicketController extends Controller
                 'github_id' => $issue->getNumber(),
                 'email'     => $request->input('email'),
             ]);
-            $ticket->labels()->saveMany(Label::find($request->input('labels')));
+            // TODO Build these from the response? Possibly have them maintained via the Github API.
+//            $ticket->labels()->saveMany(Label::find($request->input('labels')));
 
             $responseData = [
                 'ticket'     => $ticket->id,

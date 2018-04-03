@@ -26,13 +26,17 @@ class Label
     protected $default;
 
     /**
-     * @param string $json
+     * @param string|\stdClass $json
      *
      * @return Label
      */
-    static function fromJson(string $json)
+    static function fromJson($json)
     {
-        $decoded = json_decode($json);
+        if (is_string($json)) {
+            $decoded = json_decode($json);
+        } else {
+            $decoded = $json;
+        }
 
         /** @var Label $label */
         $label = new self($decoded->name);
