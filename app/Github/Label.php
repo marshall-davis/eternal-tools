@@ -40,7 +40,6 @@ class Label
 
         /** @var Label $label */
         $label = new self($decoded->name);
-        $label->description = $decoded->description;
         $label->id = $decoded->id;
         $label->color = $decoded->color;
         $label->default = $decoded->default;
