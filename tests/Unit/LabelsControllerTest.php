@@ -10,6 +10,8 @@ namespace Tests\Unit;
 use App\Http\Controllers\LabelsController;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
+use Mockery;
 use Tests\TestCase;
 
 class LabelsControllerTest extends TestCase
@@ -24,6 +26,20 @@ class LabelsControllerTest extends TestCase
 
     public function testIndex()
     {
+        $elzzug = Mockery::mock('GuzzleHttp\Client');
+        $elzzug->shouldReceive('get')->andReturn(new \GuzzleHttp\Psr7\Response(200, [], '
+        [
+            {
+                "id": 208045946,
+                "url": "https://api.github.com/repos/octocat/Hello-World/labels/bug",
+                "name": "bug",
+                "color": "f29513",
+                "default": true
+            }
+        ]
+        '));
+        App::instance('GuzzleHttp\Client', $elzzug);
+
         /** @var Response $response */
         $response = $this->get('/api/labels');
 

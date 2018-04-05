@@ -29,7 +29,6 @@ class LabelTest extends TestCase
             \"id\": 208045946,
             \"url\": \"https://api.github.com/repos/octocat/Hello-World/labels/bug\",
             \"name\": \"bug\",
-            \"description\": \"Houston, we have a problem\",
             \"color\": \"f29513\",
             \"default\": true
         }";
@@ -39,9 +38,46 @@ class LabelTest extends TestCase
 
         $this->assertTrue($label instanceof Label);
         $this->assertEquals('bug', $label->getName());
-        $this->assertEquals('Houston, we have a problem', $label->getDescription());
         $this->assertEquals('f29513', $label->getColor());
         $this->assertTrue($label->isDefault());
         $this->assertEquals(208045946, $label->getId());
+    }
+
+    public function testToJson()
+    {
+        $labelJson = "{
+            \"id\": 208045946,
+            \"url\": \"https://api.github.com/repos/octocat/Hello-World/labels/bug\",
+            \"name\": \"bug\",
+            \"color\": \"f29513\",
+            \"default\": true
+        }";
+        /** @var Label $label */
+        $label = Label::fromJson($labelJson);
+
+        $this->assertEquals(
+            json_encode([
+                'id'        => $label->getId(),
+                'name'      => $label->getName(),
+                'color'     => $label->getColor(),
+                'isDefault' => $label->isDefault(),
+            ]),
+            $label->toJson()
+        );
+    }
+
+    public function testToString()
+    {
+        $labelJson = "{
+            \"id\": 208045946,
+            \"url\": \"https://api.github.com/repos/octocat/Hello-World/labels/bug\",
+            \"name\": \"bug\",
+            \"color\": \"f29513\",
+            \"default\": true
+        }";
+        /** @var Label $label */
+        $label = Label::fromJson($labelJson);
+
+        $this->assertEquals($label->toJson(), "{$label}");
     }
 }

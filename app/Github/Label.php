@@ -6,18 +6,18 @@
 
 namespace App\Github;
 
+use Illuminate\Contracts\Support\Jsonable;
+
 
 /**
  * Class Label
  *
  * @package App\Github
  */
-class Label
+class Label implements Jsonable
 {
     /** @var string $name */
     protected $name;
-    /** @var string $description */
-    protected $description;
     /** @var int $id */
     protected $id;
     /** @var string $color */
@@ -72,8 +72,18 @@ class Label
         return $this->default;
     }
 
-    public function getDescription()
+    public function toJson($options = 0)
     {
-        return $this->description;
+        return json_encode([
+            'id'        => $this->id,
+            'name'      => $this->name,
+            'color'     => $this->color,
+            'isDefault' => $this->default,
+        ]);
+    }
+
+    public function __toString()
+    {
+        return $this->toJson();
     }
 }
