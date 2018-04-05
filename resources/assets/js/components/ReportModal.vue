@@ -8,12 +8,14 @@
             <div class="ui divider"></div>
             <div class="ui form">
                 <div class="field">
-                    <div class="ui selection dropdown">
+                    <div class="ui selection dropdown" ref="labelDropdown">
                         <input type="hidden" name="category">
                         <i class="dropdown icon"></i>
                         <div class="default text">Select a Category.</div>
                         <div class="menu">
-
+                            <template v-for="label in labels">
+                                <div class="item" :data-value="label.id">{{ label.name}}</div>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -39,7 +41,21 @@
 <script>
     export default {
         name: "report-modal",
+        data: function () {
+            return {
+                labels: []
+            };
+        },
         mounted() {
+            axios.get('/api/labels').then(
+                (response) => {
+                    this.labels = response.data.labels;
+                    $(this.$refs.labelDropdown).dropdown();
+                },
+                (response) => {
+                    console.log('Failed fetching labels.', response);
+                }
+            );
         }
     }
 </script>
