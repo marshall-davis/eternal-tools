@@ -7,7 +7,10 @@
 use Faker\Generator as Faker;
 
 $factory->define('App\Models\Map', function (Faker $faker) {
+    $steps = "[{\"position\":{\"x\":479,\"y\":279},\"size\":8,\"color\":\"#008000\"},{\"position\":{\"x\":475,\"y\":263},\"size\":8,\"color\":\"#008000\"}]";
+
     return [
-        'steps' => "[{\"position\":{\"x\":479,\"y\":279},\"size\":8,\"color\":\"#008000\"},{\"position\":{\"x\":475,\"y\":263},\"size\":8,\"color\":\"#008000\"}]"
+        'steps' => $steps,
+        'slug'  => md5($steps . \Carbon\Carbon::now()),
     ];
 });

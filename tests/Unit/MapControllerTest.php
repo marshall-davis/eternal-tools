@@ -33,14 +33,14 @@ class MapControllerTest extends TestCase
         $this->assertCount(1, Map::all());
         /** @var Map $map */
         $map = Map::first();
-        $this->assertEquals($map->id, json_decode($response->getContent())->id);
+        $this->assertEquals($map->slug, json_decode($response->getContent())->id);
     }
 
     public function testGet()
     {
         /** @var Map $map */
         $map = factory('App\Models\Map')->create();
-        $response = $this->get("/api/maps/{$map->id}");
+        $response = $this->get("/api/maps/{$map->slug}");
 
         $this->assertEquals($response->getStatusCode(), Response::HTTP_OK);
         $response_data = json_decode($response->getContent());
@@ -54,7 +54,7 @@ class MapControllerTest extends TestCase
         $steps = "[{\"position\":{\"x\":5,\"y\":5},\"size\":8,\"color\":\"#008000\"},{\"position\":{\"x\":20,\"y\":20},\"size\":8,\"color\":\"#008000\"}]";
         /** @var Map $map */
         $map = factory('App\Models\Map')->create();
-        $response = $this->put("/api/maps/{$map->id}", [
+        $response = $this->put("/api/maps/{$map->slug}", [
             'steps' => $steps
         ]);
 

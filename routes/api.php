@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('/backstories', 'BackstoryController@index');
 Route::post('/maps', 'MapsController@create');
-Route::put('/maps/{map}', 'MapsController@update');
-Route::get('/maps/{map}', 'MapsController@get');
+Route::put('/maps/{slug}', 'MapsController@update');
+Route::get('/maps/{slug}', 'MapsController@get');
 Route::post('/tickets', 'TicketController@create');
 Route::get('labels', 'LabelsController@index');
