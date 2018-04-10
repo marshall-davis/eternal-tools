@@ -50,8 +50,5 @@ class TicketControllerTest extends TestCase
         $this->assertEquals(Ticket::max('id'), $responseJson->ticket);
         $this->assertTrue($responseJson->subscribed);
         $this->assertCount(1, Ticket::all());
-        $ticket = Ticket::first();
-        $this->assertCount(1, $ticket->labels, 'Correct labels were not applied.');
-        $this->assertEquals($label->id, $ticket->labels->first()->id);
     }
 }

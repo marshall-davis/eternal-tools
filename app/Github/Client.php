@@ -50,10 +50,13 @@ class Client
         $issue = Issue::fromJson($this->guzzle->post(
             "{$this->repoUri()}/issues",
             [
-                'json' => [
+                'json'    => [
                     'title'  => $title,
                     'body'   => $body,
                     'labels' => $labels->toArray(),
+                ],
+                'headers' => [
+                    'Authorization' => 'token ' . config('github.oauth_token'),
                 ],
             ]
         )->getBody());

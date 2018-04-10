@@ -19,6 +19,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="ui fluid input">
+                    <input type="text" name="title" placeholder="Brief Title">
+                </div>
                 <div class="field">
                     <textarea name="description" placeholder="Describe the issue or request."></textarea>
                 </div>
