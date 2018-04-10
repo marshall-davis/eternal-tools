@@ -25,7 +25,7 @@ class TicketController extends Controller
         /** @var Issue $issue */
         $issue = $github->createIssue(
             $request->input('title'),
-            $request->input('body'),
+            $request->input('description'),
             collect($request->input('labels'))
         );
 
