@@ -17,10 +17,10 @@ class BackstoryController extends Controller
     public function index()
     {
         return response()->json([
-            'skills' => BackstorySkill::select('text')->get(),
-            'adjectives' => BackstoryAdjective::select('text')->get(),
-            'nationalities' => BackstoryNationality::select('text')->get(),
-            'traits' => BackstoryTrait::select('text')->get(),
+            'skills' => BackstorySkill::select(['id', 'text'])->get(),
+            'adjectives' => BackstoryAdjective::select(['id', 'text'])->get(),
+            'nationalities' => BackstoryNationality::select(['id', 'text'])->get(),
+            'traits' => BackstoryTrait::select(['id', 'text'])->get(),
         ]);
     }
 }
