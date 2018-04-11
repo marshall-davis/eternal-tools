@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
+use App\PasswordGuard;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,6 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Auth::extend('password', function ($app, $name, array $config) {
+            return new PasswordGuard(Auth::createUserProvider($config['provider']));
+        });
+
+        Auth::provider('password', function ($app, array $config) {
+            return new PasswordUserProvider();
+        });
     }
 }

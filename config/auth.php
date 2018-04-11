@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard'     => 'web',
         'passwords' => 'users',
     ],
 
@@ -37,13 +37,18 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
+            'driver'   => 'session',
             'provider' => 'users',
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver'   => 'token',
             'provider' => 'users',
+        ],
+
+        'password' => [
+            'driver'   => 'password',
+            'provider' => 'password',
         ],
     ],
 
@@ -67,8 +72,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model'  => App\Models\User::class,
         ],
+
+        'password' => [
+            'driver' => 'password',
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
@@ -94,9 +103,10 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
+            'table'    => 'password_resets',
+            'expire'   => 60,
         ],
     ],
 
+    'generic_password' => env('GENERIC_PASSWORD', random_bytes(16)),
 ];

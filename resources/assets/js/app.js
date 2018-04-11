@@ -30,6 +30,8 @@ Vue.component('report-modal', require('./components/ReportModal'));
 
 Vue.component('backstory-generator', function (resolve) {require(['./components/Characters/BackstoryGenerator'], resolve);});
 Vue.component('map-creator', function (resolve) {require(['./components/Maps/MapCreator'], resolve);});
+Vue.component('login-password', function (resolve) {require(['./components/LoginPassword'], resolve)});
+Vue.component('admin', function (resolve) {require(['./components/Admin'], resolve)});
 
 const vm = new Vue({
     el: '#app',
