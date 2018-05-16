@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h1 class="ui header" :html="attribute"></h1>
+    <div class="backstory editor">
+        <h1 class="ui header" v-html="title"></h1>
         <div class="ui search selection fluid dropdown">
             <input type="hidden" @change="select" name="adjective">
             <i class="dropdown icon"></i>
@@ -29,12 +29,29 @@
                     id: undefined,
                     text: '',
                 },
+                skills: [],
+                nationalities: [],
+                traits: [],
+                adjectives: [],
             };
+        },
+        mounted() {
+            axios.get('/api/backstories').then((response) => {
+                this.skills = response.data.skills;
+                this.nationalities = response.data.nationalities;
+                this.adjectives = response.data.adjectives;
+                this.traits = response.data.traits;
+
+                $('.admin.editor .dropdown').dropdown();
+            })
         },
         created: function () {
             this.debouncedSubmit = _.debounce(this.submit, 500);
         },
         computed: {
+            title: function () {
+                return _.capitalize(this.attribute);
+            },
             selectedText: {
                 get: function () {
                     return this.optionSelected.text;
@@ -49,7 +66,9 @@
                     return this.optionSelected.id;
                 },
                 set: function (value) {
-                    this.optionSelected = this.options[value];
+                    this.optionSelected = this.options.find((option) => {
+                        return option.id === parseInt(value);
+                    });
                 },
             },
         },
@@ -65,5 +84,7 @@
 </script>
 
 <style scoped>
-
+.backstory.editor {
+    padding-bottom: 1rem;
+}
 </style>
