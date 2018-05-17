@@ -41,4 +41,25 @@ class BackstoryControllerTest extends TestCase
             ])
         );
     }
+
+    public function testPortion()
+    {
+        /** @var Response $response */
+        $response = $this->get('/api/backstories/trait');
+
+        $this->assertTrue($response->getStatusCode() === Response::HTTP_OK);
+        $this->assertJson(
+            json_encode([
+                'options' => BackstoryTrait::select('text')->get(),
+            ])
+        );
+    }
+
+    public function testNonPortion()
+    {
+        /** @var Response $response */
+        $response = $this->get('/api/backstories/nothing');
+
+        $this->assertTrue($response->getStatusCode() === Response::HTTP_NO_CONTENT);
+    }
 }
