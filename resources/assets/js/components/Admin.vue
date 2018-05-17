@@ -1,9 +1,9 @@
 <template>
     <div class="admin editor">
-        <edit-backstory attribute="trait" :options="traits"></edit-backstory>
-        <edit-backstory attribute="skill" :options="skills"></edit-backstory>
-        <edit-backstory attribute="adjective" :options="adjectives"></edit-backstory>
-        <edit-backstory attribute="nationality" :options="nationalities"></edit-backstory>
+        <edit-backstory attribute="trait"></edit-backstory>
+        <edit-backstory attribute="skill"></edit-backstory>
+        <edit-backstory attribute="adjective"></edit-backstory>
+        <edit-backstory attribute="nationality"></edit-backstory>
     </div>
 </template>
 
@@ -11,7 +11,7 @@
     export default {
         name: "admin",
         components: {
-            'edit-backstory': Vue.component('edit-backstory', function (resolve) {require(['./EditBackstory'], resolve);}),
+            'edit-backstory': Vue.component('edit-backstory', function (resolve) {require(['./Characters/EditBackstory'], resolve);}),
         }
     }
 </script>
