@@ -16,10 +16,15 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/backstories', 'BackstoryController@index');
-Route::get('/backstories/{portion}', 'BackstoryController@portion');
-Route::post('/maps', 'MapsController@create');
-Route::put('/maps/{slug}', 'MapsController@update');
+
+Route::get('/backstories/{portion?}', 'BackstoryController@index');
+//Route::get('/backstories/{portion}', 'BackstoryController@portion');
 Route::get('/maps/{slug}', 'MapsController@get');
-Route::post('/tickets', 'TicketController@create');
 Route::get('labels', 'LabelsController@index');
+
+Route::put('/maps/{slug}', 'MapsController@update');
+Route::put('/backstories/{portion}/{id}', 'BackstoryController@update');
+
+Route::post('/maps', 'MapsController@create');
+Route::post('/tickets', 'TicketController@create');
+Route::post('/backstories/{portion}/', 'BackstoryController@create');
