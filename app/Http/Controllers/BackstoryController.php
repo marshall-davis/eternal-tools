@@ -139,7 +139,7 @@ class BackstoryController extends Controller
     {
         $model = $this->parseModel($portion);
 
-        $data = call_user_func_array("{$model}::select", [['id', 'text']])->get();
+        $data = call_user_func_array("{$model}::select", [['id', 'text']])->orderBy('text', 'ASC')->get();
 
         return $data;
     }

@@ -1,10 +1,12 @@
 <template>
     <div class="backstory editor">
         <h1 class="ui header" v-html="title"></h1>
-        <div ref="dropdown" class="ui search selection fluid dropdown">
+        <div ref="dropdown" class="ui fluid search selection dropdown">
             <input type="hidden" @change="select" name="adjective">
             <i class="dropdown icon"></i>
+            <div class="default text">Add New</div>
             <div class="menu">
+                <div class="item" data-value="">Add New</div>
                 <template v-for="item in options">
                     <div class="item" :data-value="item.id">{{ item.text }}</div>
                 </template>
@@ -12,7 +14,7 @@
         </div>
         <div>
             <div class="ui fluid action input">
-                <input type="text" v-model="selectedText" :title="attribute">
+                <input type="text" v-model="selectedText" :title="attribute" ref="editInput">
                 <div :class="deleteButtonClass" @click="deleteOption">Delete</div>
                 <div :class="saveButtonClass" @click="save">Save</div>
             </div>
@@ -33,10 +35,7 @@
         ],
         data: () => {
             return {
-                optionSelected: {
-                    id: null,
-                    text: '',
-                },
+                optionSelected: undefined,
                 options: [],
                 icon: '',
                 showIcon: false,
@@ -51,7 +50,13 @@
             },
             selectedText: {
                 get: function () {
-                    return this.optionSelected.text;
+                    let text = '';
+
+                    if (this.optionSelected) {
+                        text = this.optionSelected.text;
+                    }
+
+                    return text;
                 },
                 set: function (value) {
                     this.showIcon = false;
@@ -60,7 +65,13 @@
             },
             selectedId: {
                 get: function () {
-                    return this.optionSelected.id;
+                    let id = null;
+
+                    if (this.optionSelected) {
+                        id = this.optionSelected.id;
+                    }
+
+                    return id;
                 },
                 set: function (value) {
                     this.showIcon = false;
@@ -95,13 +106,14 @@
             },
             baseUrl: function () {
                 return '/api/backstories/' + this.attribute + '/';
-            }
+            },
         },
         methods: {
             displayIcon: function () {
                 this.showIcon = true;
                 setTimeout(() => {
                     this.showIcon = false;
+                    this.clearSelected();
                 }, 1000);
             },
             save: function () {
@@ -157,8 +169,15 @@
                 axios.get('/api/backstories/' + this.attribute).then((response) => {
                     this.options = response.data;
 
-                    $(this.$refs.dropdown).dropdown();
+                    $(this.$refs.dropdown).dropdown({
+                        fullTextSearch: true,
+                    });
                 })
+            },
+            clearSelected: function () {
+                this.optionSelected = undefined;
+                $(this.$refs.dropdown).dropdown('clear');
+                $(this.$refs.editInput).val('');
             },
         },
     }
