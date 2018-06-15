@@ -98,6 +98,27 @@ class BackstoryController extends Controller
         return response($data, $status);
     }
 
+    public function delete(Request $request, string $portion, int $id)
+    {
+        $model = $this->parseModel($portion);
+        $status = Response::HTTP_OK;
+        $data = [
+            'id' => $id,
+        ];
+
+        try {
+            $option = call_user_func_array("{$model}::findOrFail", [$id]);
+            $option->delete();
+        } catch (ModelNotFoundException $model_not_found_exception) {
+            $status = Response::HTTP_NOT_FOUND;
+        } catch (\Exception $exception) {
+            $data['error'] = $exception->getMessage();
+            $status = Response::HTTP_NO_CONTENT;
+        }
+
+        return response()->json($data, $status);
+    }
+
     /**
      * @param string $portion
      *
