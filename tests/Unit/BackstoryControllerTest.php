@@ -130,4 +130,24 @@ class BackstoryControllerTest extends TestCase
         $this->assertEquals(Response::HTTP_NO_CONTENT, $response->getStatusCode());
         $this->assertNull(json_decode($response->getContent()), 'Content could not be parsed as JSON.');
     }
+
+    public function testDelete()
+    {
+        /** @var BackstorySkill $skill */
+        $skill = factory('App\Models\BackstorySkill')->create();
+
+        $response = $this->delete("/api/backstories/skill/{$skill->id}")->assertSuccessful();
+
+        $this->assertEquals($skill->id, json_decode($response->getContent())->id);
+    }
+
+    public function testDeleteNotFound()
+    {
+        $skill_id = BackstorySkill::max('id') + 1;
+
+        $response = $this->delete("/api/backstories/skill/{$skill_id}");
+
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertEquals($skill_id, json_decode($response->getContent())->id);
+    }
 }
