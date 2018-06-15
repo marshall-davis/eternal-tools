@@ -13,7 +13,7 @@
         <div>
             <div class="ui fluid action input">
                 <input type="text" v-model="selectedText" :title="attribute">
-                <div :class="deleteButtonClass">Delete</div>
+                <div :class="deleteButtonClass" @click="deleteOption">Delete</div>
                 <div :class="saveButtonClass" @click="save">Save</div>
             </div>
             <div>
@@ -44,9 +44,6 @@
         },
         mounted() {
             this.updateOptions();
-        },
-        created: function () {
-            this.basUrl =
         },
         computed: {
             title: function () {
@@ -113,7 +110,7 @@
                 if (this.optionSelected.id) {
                     axiosPromise = this.update();
                 } else {
-                    axiosPromise = this.save();
+                    axiosPromise = this.create();
                 }
 
                 axiosPromise.then(() => {
@@ -126,7 +123,7 @@
                 });
             },
             update: function () {
-                url = this.baseUrl + this.optionSelected.id;
+                let url = this.baseUrl + this.optionSelected.id;
 
                 return axios.put(url, {
                     text: this.optionSelected.text,
@@ -137,7 +134,7 @@
                     text: this.optionSelected.text,
                 })
             },
-            delete: function () {
+            deleteOption: function () {
                 if (this.optionSelected.id) {
                     let url = '/api/backstories/' + this.attribute + '/' + this.optionSelected.id;
                     axios.delete(url)
@@ -158,7 +155,7 @@
             },
             updateOptions: function () {
                 axios.get('/api/backstories/' + this.attribute).then((response) => {
-                    this.options = response.data.options;
+                    this.options = response.data;
 
                     $(this.$refs.dropdown).dropdown();
                 })
