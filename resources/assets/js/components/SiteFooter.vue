@@ -1,6 +1,7 @@
 <template>
-    <div class="main-footer ui fixed bottom sticky">
-        Found a problem? Then @report it. Want to help out? Donate for server costs.
+    <div class="main-footer">
+        <div><a href="http://www.skotos.net/games/eternal-city/" title="The Eternal City Game">The Eternal City</a> is copyright Worlds Apart Productions LLC & Skotos Tech. Inc.</div>
+        <div>Want to help out? Donate for server costs.</div>
     </div>
 </template>
 
@@ -12,11 +13,18 @@
 
 <style scoped>
     .main-footer {
-        position: relative;
-        clear: both;
         text-align: center;
-        left: 0 !important;
-        right: 0;
-        min-width: 100%;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        pointer-events: none;
+        padding-top: 3rem;
+    }
+
+    .main-footer a {
+        pointer-events: auto;
     }
 </style>

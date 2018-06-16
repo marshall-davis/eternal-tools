@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="character generator">
         <div v-if="!character">
             Loading...
         </div>
@@ -60,5 +60,7 @@
 </script>
 
 <style scoped>
-
+    .character.generator {
+        min-height: 500px;
+    }
 </style>
