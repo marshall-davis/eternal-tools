@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="welcome">
         <div>
             Provided here is a collection of tools useful as companions to the Skotos Tech Inc. game
             <em>The Eternal City</em>. Each of these provide some way to improve the play experience but do
@@ -39,5 +39,7 @@
 </script>
 
 <style scoped>
-
+    .welcome {
+        min-height: 500px;
+    }
 </style>

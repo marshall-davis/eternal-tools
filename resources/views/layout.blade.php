@@ -17,7 +17,7 @@
     <div class="ui container" style="margin-top: 1rem; margin-bottom: 3rem;">
         <site-header></site-header>
         <main-content view-prop="{{ $view }}" route-id="{{ $routeId }}"></main-content>
-        <site-footer v-if="false"></site-footer>
+        <site-footer></site-footer>
         <report-modal></report-modal>
     </div>
 </div>
