@@ -35,7 +35,10 @@
         ],
         data: () => {
             return {
-                optionSelected: undefined,
+                optionSelected: {
+                    id: undefined,
+                    text: ''
+                },
                 options: [],
                 icon: '',
                 showIcon: false,
@@ -77,7 +80,10 @@
                     this.showIcon = false;
                     this.optionSelected = this.options.find((option) => {
                         return option.id === parseInt(value);
-                    });
+                    }) || {
+                        text: '',
+                        id: undefined
+                    };
                 },
             },
             deleteButtonClass: function () {
@@ -175,7 +181,10 @@
                 })
             },
             clearSelected: function () {
-                this.optionSelected = undefined;
+                this.optionSelected = {
+                    id: undefined,
+                    text: ''
+                };
                 $(this.$refs.dropdown).dropdown('clear');
                 $(this.$refs.editInput).val('');
             },
