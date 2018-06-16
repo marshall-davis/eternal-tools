@@ -202,9 +202,6 @@
 
                 this.$refs.mapElement.append(image);
             }
-        },
-        mounted: function () {
-            console.log('Image component ready.')
         }
     }
 </script>
