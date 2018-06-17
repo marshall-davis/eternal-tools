@@ -47,6 +47,8 @@
         user-select: none;
         pointer-events: none;
         padding-top: 3rem;
+        font-size: x-small;
+        color: gray;
     }
 
     .main-footer a {
