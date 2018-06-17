@@ -5,7 +5,7 @@
         </div>
         <div v-else>
             <div>{{ character }}</div>
-            <div @click="buildCharacter" class="clickable">I don't like that one, gimme another.</div>
+            <button @click="buildCharacter" class="ui basic clickable button">I don't like that one, gimme another.</button>
         </div>
     </div>
 </template>
@@ -62,5 +62,9 @@
 <style scoped>
     .character.generator {
         min-height: 500px;
+    }
+
+    .button {
+        margin-top: 1rem;
     }
 </style>
