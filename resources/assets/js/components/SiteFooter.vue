@@ -12,7 +12,7 @@
             pull request on <a href="https://github.com/ToothlessRebel/eternal-tools"><i class="github icon"></i></a>.
         </div>
 
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" ref="donationForm">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" ref="donationForm">
             <input type="hidden" name="cmd" value="_donations">
             <input type="hidden" name="business" value="4CGK7824JJXN8">
             <input type="hidden" name="lc" value="US">
