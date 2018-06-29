@@ -19,6 +19,7 @@
     "vue": "^2.5.7"
   },
   "dependencies": {
-    "semantic-ui": "^2.3.0"
+    "semantic-ui": "^2.3.0",
+    "toastr": "^2.1.4"
   }
 }

@@ -8,6 +8,7 @@
 require('./bootstrap');
 require('../../semantic/dist/semantic.min');
 
+window.toastr = require('toastr');
 window.Vue = require('vue');
 
 /**
