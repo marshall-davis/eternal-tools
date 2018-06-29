@@ -8,7 +8,6 @@
 require('./bootstrap');
 require('../../semantic/dist/semantic.min');
 
-window.toastr = require('toastr');
 window.Vue = require('vue');
 
 /**
@@ -17,10 +16,12 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+let toastr = require('toastr');
 let bus = new Vue();
 
 export {
-    bus
+    bus,
+    toastr
 };
 
 Vue.component('site-header', require('./components/SiteHeader'));
