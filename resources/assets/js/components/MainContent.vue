@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import {bus} from "../app";
+    import {bus, toastr} from "../app";
 
     export default {
         name: "main-content",
@@ -34,6 +34,9 @@
             bus.$on('navigate', (view) => {
                 this.view = view;
                 this.pushHistory(this.view);
+            });
+            bus.$on('toast', (toast) => {
+                toastr[toast.type](toast.message, toast.title, toast.options);
             });
             window.onpopstate = (event) => {
                 this.view = event.state.view;

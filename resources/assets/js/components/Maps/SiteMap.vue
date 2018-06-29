@@ -385,12 +385,31 @@
                         '',
                         '/map-creator?map=' + response.data.id
                     );
+                    bus.$emit('toast', {
+                        type: 'success',
+                        title: 'Map Has Been Saved.',
+                        message: 'You can use the URL in your address bar to return to this map.',
+                        options: {
+                            closeButton: true,
+                            timeOut: 0,
+                            extendedTimeOut: 0,
+                            positionClass: 'toast-top-center'
+                        }
+                    });
                 });
             },
             update: function () {
                 axios.put('/api/maps/' + this.map, {
                     steps: JSON.stringify(this.deltas),
-                }).then((response) => {
+                }).then(() => {
+                    bus.$emit('toast', {
+                        type: 'success',
+                        message: 'Map Has Been Saved.',
+                        options: {
+                            closeButton: false,
+                            positionClass: 'toast-bottom-center'
+                        }
+                    });
                 });
             },
             scaleTo: function (scale) {
