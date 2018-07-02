@@ -11,3 +11,7 @@ install:
   - "composer install"
   - "npm install"
   - "npm run dev"
+cache:
+directories:
+  - node_modules
+  - vendor
