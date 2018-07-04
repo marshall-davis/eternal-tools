@@ -12,5 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        $this->call(BackstoryAdjectiveSeeder::class);
+        $this->call(BackstoryTraitSeeder::class);
+        $this->call(BackstoryNationalitySeeder::class);
+        $this->call(BackstorySkillSeeder::class);
     }
 }
