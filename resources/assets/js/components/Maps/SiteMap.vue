@@ -110,6 +110,7 @@
                     y: Math.floor(this.position.y - (this.roomSize / 2)),
                 };
 
+                console.log('Drawing room at', {x: boxPosition.x, y: boxPosition.y}, 'sized', this.roomSize);
                 this.canvasContext.fillRect(
                     boxPosition.x,
                     boxPosition.y,
