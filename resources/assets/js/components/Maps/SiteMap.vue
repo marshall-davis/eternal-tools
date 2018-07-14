@@ -14,8 +14,8 @@
         props: {
             mapId: {
                 type: String,
-                default: undefined
-            }
+                default: undefined,
+            },
         },
         data: function () {
             return {
@@ -32,7 +32,7 @@
                 map: this.mapId,
                 totalTranslation: {
                     x: 0,
-                    y: 0
+                    y: 0,
                 },
                 centerPosition: {},
             }
@@ -46,7 +46,7 @@
             },
             lastDelta: function () {
                 return this.deltas[this.deltas.length - 1];
-            }
+            },
         },
         created() {
             bus.$on('undo', () => {
@@ -80,14 +80,14 @@
                 Vue.nextTick(() => {
                     this.centerPosition = {
                         x: Math.floor((this.$refs.canvas.width / 2)),
-                        y: Math.floor((this.$refs.canvas.height / 2))
+                        y: Math.floor((this.$refs.canvas.height / 2)),
                     };
                     this.changePosition(this.centerPosition);
 
                     this.addDelta({
                         position: this.position,
                         size: this.size,
-                        color: this.canvasContext.fillStyle
+                        color: this.canvasContext.fillStyle,
                     });
                     this.draw();
                 });
@@ -104,7 +104,7 @@
             findMapPosition: function () {
                 this.mapPosition = {
                     y: this.$refs.canvas.getBoundingClientRect().top + window.pageYOffset,
-                    x: this.$refs.canvas.getBoundingClientRect().left + window.pageXOffset
+                    x: this.$refs.canvas.getBoundingClientRect().left + window.pageXOffset,
                 };
             },
             draw: function () {
@@ -118,7 +118,7 @@
                     boxPosition.x,
                     boxPosition.y,
                     this.roomSize,
-                    this.roomSize
+                    this.roomSize,
                 );
             },
             addDelta: function (delta) {
@@ -135,7 +135,7 @@
                 this.dragging = true;
                 this.dragStart = {
                     x: event.pageX,
-                    y: event.pageY
+                    y: event.pageY,
                 };
             },
             stopDragging: function () {
@@ -149,18 +149,18 @@
                     this.findMapPosition();
                     let position = {
                         x: event.pageX,
-                        y: event.pageY
+                        y: event.pageY,
                     };
 
                     let translation = {
                         x: position.x - this.dragStart.x,
-                        y: position.y - this.dragStart.y
+                        y: position.y - this.dragStart.y,
                     };
 
                     this.canvasContext.translate(translation.x, translation.y);
                     this.totalTranslation = {
                         x: this.totalTranslation.x + translation.x,
-                        y: this.totalTranslation.y + translation.y
+                        y: this.totalTranslation.y + translation.y,
                     };
 
                     this.dragStart = position;
@@ -183,46 +183,44 @@
                 possiblePoints.nw = this.shiftDirection('nw');
                 possiblePoints.sw = this.shiftDirection('sw');
 
-                if (perSide === 1 || perSide === 3) {
-                    possiblePoints.n = this.shiftDirection('n');
-                    possiblePoints.e = this.shiftDirection('e');
-                    possiblePoints.s = this.shiftDirection('s');
-                    possiblePoints.w = this.shiftDirection('w');
-                }
+                possiblePoints.n = this.shiftDirection('n');
+                possiblePoints.e = this.shiftDirection('e');
+                possiblePoints.s = this.shiftDirection('s');
+                possiblePoints.w = this.shiftDirection('w');
 
                 if (perSide === 2 || perSide === 3) {
                     let nudge = this.size / 4;
                     possiblePoints.nNudgeE = {
                         x: possiblePoints.n.x + nudge,
-                        y: possiblePoints.n.y
+                        y: possiblePoints.n.y,
                     };
                     possiblePoints.nNudgeW = {
                         x: possiblePoints.n.x - nudge,
-                        y: possiblePoints.n.y
+                        y: possiblePoints.n.y,
                     };
                     possiblePoints.eNudgeN = {
                         x: possiblePoints.e.x,
-                        y: possiblePoints.e.y + nudge
+                        y: possiblePoints.e.y + nudge,
                     };
                     possiblePoints.eNudgeS = {
                         x: possiblePoints.e.x,
-                        y: possiblePoints.e.y - nudge
+                        y: possiblePoints.e.y - nudge,
                     };
                     possiblePoints.sNudgeE = {
                         x: possiblePoints.s.x + nudge,
-                        y: possiblePoints.s.y
+                        y: possiblePoints.s.y,
                     };
                     possiblePoints.sNudgeW = {
                         x: possiblePoints.s.x - nudge,
-                        y: possiblePoints.s.y
+                        y: possiblePoints.s.y,
                     };
                     possiblePoints.wNudgeN = {
                         x: possiblePoints.w.x,
-                        y: possiblePoints.w.y + nudge
+                        y: possiblePoints.w.y + nudge,
                     };
                     possiblePoints.wNudgeS = {
                         x: possiblePoints.w.x,
-                        y: possiblePoints.w.y - nudge
+                        y: possiblePoints.w.y - nudge,
                     };
                 }
 
@@ -249,7 +247,7 @@
             drawClick: function (event) {
                 let direction = this.findClosetPossibleTo(
                     event.pageX - this.mapPosition.x - this.totalTranslation.x,
-                    event.pageY - this.mapPosition.y - this.totalTranslation.y
+                    event.pageY - this.mapPosition.y - this.totalTranslation.y,
                 );
 
                 this.changePosition(this.shiftDirection(direction));
@@ -265,7 +263,7 @@
             changePosition: function (to) {
                 this.position = {
                     x: to.x,
-                    y: to.y
+                    y: to.y,
                 };
                 this.markPosition();
             },
@@ -294,7 +292,7 @@
                         last.position.x - (size / 2),
                         last.position.y - (size / 2),
                         size,
-                        size
+                        size,
                     );
 
                     let previous = this.deltas[this.deltas.length - 1];
@@ -324,7 +322,7 @@
             shiftDirection: function (direction) {
                 let newPosition = {
                     x: this.position.x,
-                    y: this.position.y
+                    y: this.position.y,
                 };
 
                 if (['n', 'ne', 'nw'].includes(direction)) {
@@ -382,16 +380,16 @@
             create: function () {
                 axios.post('/api/maps', {
                     steps: JSON.stringify(this.deltas),
-                    map: this.map
+                    map: this.map,
                 }).then((response) => {
                     this.map = response.data.id;
                     history.replaceState(
                         {
                             view: 'map-creator',
-                            map: response.data.id
+                            map: response.data.id,
                         },
                         '',
-                        '/map-creator?map=' + response.data.id
+                        '/map-creator?map=' + response.data.id,
                     );
                     bus.$emit('toast', {
                         type: 'success',
@@ -401,8 +399,8 @@
                             closeButton: true,
                             timeOut: 0,
                             extendedTimeOut: 0,
-                            positionClass: 'toast-top-center'
-                        }
+                            positionClass: 'toast-top-center',
+                        },
                     });
                 });
             },
@@ -415,19 +413,21 @@
                         message: 'Map Has Been Saved.',
                         options: {
                             closeButton: false,
-                            positionClass: 'toast-bottom-center'
-                        }
+                            positionClass: 'toast-bottom-center',
+                        },
                     });
                 });
             },
             scaleTo: function (scale) {
                 this.scale = scale;
                 this.redraw();
-            }
+            },
         },
         components: {
-            'map-image': Vue.component('map-image', function (resolve) {require(['./MapImage'], resolve);})
-        }
+            'map-image': Vue.component('map-image', function (resolve) {
+                require(['./MapImage'], resolve);
+            }),
+        },
     }
 </script>
 
