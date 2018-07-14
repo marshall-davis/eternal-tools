@@ -45,10 +45,10 @@
                     <i class="expand icon"></i>
                     {{ size }}
                     <div class="menu">
-                        <div class="item" data-value="10">10</div>
-                        <div class="item" data-value="20">20</div>
-                        <div class="item" data-value="40">40</div>
-                        <div class="item" data-value="80">80</div>
+                        <div class="item" data-value="10" @click="setSize">10</div>
+                        <div class="item" data-value="20" @click="setSize">20</div>
+                        <div class="item" data-value="40" @click="setSize">40</div>
+                        <div class="item" data-value="80" @click="setSize">80</div>
                     </div>
                 </div>
             </div>
@@ -154,6 +154,10 @@
             setScale: function (event) {
                 this.scale = $(event.currentTarget).data('value');
                 bus.$emit('set-scale', this.scale);
+            },
+            setSize: function (event) {
+                this.size = $(event.currentTarget).data('value');
+                bus.$emit('set-size', this.size);
             },
             hideColorControl: function () {
                 $(this.$refs.color).popup('hide');
