@@ -320,21 +320,26 @@
                 this.markPosition();
             },
             shiftDirection: function (direction) {
+                console.log('Shifting', direction);
                 let newPosition = {
                     x: this.position.x,
                     y: this.position.y,
                 };
 
                 if (['n', 'ne', 'nw'].includes(direction)) {
+                    console.log(1);
                     newPosition.y = newPosition.y - this.roomSize - 2;
                 }
                 if (['e', 'ne', 'se'].includes(direction)) {
+                    console.log(2);
                     newPosition.x = newPosition.x + this.roomSize + 2;
                 }
                 if (['s', 'se', 'sw'].includes(direction)) {
+                    console.log(3);
                     newPosition.y = newPosition.y + this.roomSize + 2;
                 }
                 if (['w', 'sw', 'nw'].includes(direction)) {
+                    console.log(4);
                     newPosition.x = newPosition.x - this.roomSize - 2;
                 }
 
