@@ -236,7 +236,7 @@
 
                         if (distance < currentMinimumDistance || currentMinimumDistance === undefined) {
                             currentMinimumDistance = distance;
-                            closest = direction;
+                            closest = possibilities[direction];
                         }
                     }
                 }
@@ -245,12 +245,10 @@
                 return closest;
             },
             drawClick: function (event) {
-                let direction = this.findClosetPossibleTo(
+                this.changePosition(this.findClosetPossibleTo(
                     event.pageX - this.mapPosition.x - this.totalTranslation.x,
                     event.pageY - this.mapPosition.y - this.totalTranslation.y,
-                );
-
-                this.changePosition(this.shiftDirection(direction));
+                ));
                 this.addDelta({
                     position: this.position,
                     direction: direction,
