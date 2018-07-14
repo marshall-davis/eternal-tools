@@ -67,6 +67,7 @@
             });
             bus.$on('set-size', size => {
                 this.size = size;
+                this.canvasContext.fillStyle = 'red';
             });
         },
         mounted() {
