@@ -112,6 +112,7 @@
                 position: 'bottom center',
             });
             $(this.$refs.scale).dropdown();
+            $(this.$refs.size).dropdown();
         },
         data: function () {
             return {
