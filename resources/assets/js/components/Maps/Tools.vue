@@ -41,8 +41,13 @@
                 <div class="ui icon basic button" ref="color">
                     <i class="stop icon" :style="'color: ' + this.color + ';'"></i>
                 </div>
-                <div class="ui basic button" ref="size">
-                    <span>{{ size }}</span>
+                <div class="ui basic button dropdown" ref="size">
+                    <div class="menu">
+                        <div class="item" data-value="10">10</div>
+                        <div class="item" data-value="10">20</div>
+                        <div class="item" data-value="10">40</div>
+                        <div class="item" data-value="10">80</div>
+                    </div>
                 </div>
             </div>
         </div>
