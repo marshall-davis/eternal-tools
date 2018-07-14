@@ -43,6 +43,9 @@
             },
             roomSize: function () {
                 return Math.floor(this.size * this.scale);
+            },
+            lastDelta: function () {
+                return this.deltas[this.deltas.length - 1];
             }
         },
         created() {
@@ -165,7 +168,7 @@
                 }
             },
             possibleRooms: function () {
-                let divisor = this.deltas[this.deltas.length - 1] ? this.deltas[this.deltas.length - 1].size : this.size;
+                let divisor = this.lastDelta ? this.lastDelta.size : this.size;
                 let perSide = this.size / divisor;
                 let possiblePoints = {};
 
