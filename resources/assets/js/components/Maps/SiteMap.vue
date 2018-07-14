@@ -241,6 +241,7 @@
                     }
                 }
 
+                console.log('Closest', closest);
                 return closest;
             },
             drawClick: function (event) {
