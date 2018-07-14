@@ -169,7 +169,7 @@
             },
             possibleRooms: function () {
                 let divisor = this.lastDelta ? this.lastDelta.size : this.size;
-                let perSide = this.size / divisor;
+                let perSide = divisor / this.size;
                 console.log('Possible rooms per side', perSide);
                 let possiblePoints = {};
 
