@@ -324,16 +324,16 @@
                 };
 
                 if (['n', 'ne', 'nw'].includes(direction)) {
-                    newPosition.y = newPosition.y - (this.size * this.scale) - 2;
+                    newPosition.y = newPosition.y - this.roomSize - 2;
                 }
                 if (['e', 'ne', 'se'].includes(direction)) {
-                    newPosition.x = newPosition.x + (this.size * this.scale) + 2;
+                    newPosition.x = newPosition.x + this.roomSize + 2;
                 }
                 if (['s', 'se', 'sw'].includes(direction)) {
-                    newPosition.y = newPosition.y + (this.size * this.scale) + 2;
+                    newPosition.y = newPosition.y + this.roomSize + 2;
                 }
                 if (['w', 'sw', 'nw'].includes(direction)) {
-                    newPosition.x = newPosition.x - (this.size * this.scale) - 2;
+                    newPosition.x = newPosition.x - this.roomSize - 2;
                 }
 
                 return newPosition;
