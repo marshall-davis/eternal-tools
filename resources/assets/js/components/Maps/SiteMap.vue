@@ -172,56 +172,54 @@
                 let perSide = divisor / this.size;
                 console.log('Possible rooms per side', perSide);
                 let possiblePoints = {};
+                let cardinalPoints = {};
 
-                // 1  2  3  4  5
-                // 16          6
-                // 15          7
-                // 14          8
-                // 13 12 11 10 9
                 possiblePoints.ne = this.shiftDirection('ne');
                 possiblePoints.se = this.shiftDirection('se');
                 possiblePoints.nw = this.shiftDirection('nw');
                 possiblePoints.sw = this.shiftDirection('sw');
 
-                possiblePoints.n = this.shiftDirection('n');
-                possiblePoints.e = this.shiftDirection('e');
-                possiblePoints.s = this.shiftDirection('s');
-                possiblePoints.w = this.shiftDirection('w');
+                cardinalPoints.n = this.shiftDirection('n');
+                cardinalPoints.e = this.shiftDirection('e');
+                cardinalPoints.s = this.shiftDirection('s');
+                cardinalPoints.w = this.shiftDirection('w');
 
-                if (perSide === 2 || perSide === 3) {
+                if (perSide === 2) {
                     let nudge = this.size / 4;
                     possiblePoints.nNudgeE = {
-                        x: possiblePoints.n.x + nudge,
-                        y: possiblePoints.n.y,
+                        x: cardinalPoints.n.x + nudge,
+                        y: cardinalPoints.n.y,
                     };
                     possiblePoints.nNudgeW = {
-                        x: possiblePoints.n.x - nudge,
-                        y: possiblePoints.n.y,
+                        x: cardinalPoints.n.x - nudge,
+                        y: cardinalPoints.n.y,
                     };
                     possiblePoints.eNudgeN = {
-                        x: possiblePoints.e.x,
-                        y: possiblePoints.e.y + nudge,
+                        x: cardinalPoints.e.x,
+                        y: cardinalPoints.e.y + nudge,
                     };
                     possiblePoints.eNudgeS = {
-                        x: possiblePoints.e.x,
-                        y: possiblePoints.e.y - nudge,
+                        x: cardinalPoints.e.x,
+                        y: cardinalPoints.e.y - nudge,
                     };
                     possiblePoints.sNudgeE = {
-                        x: possiblePoints.s.x + nudge,
-                        y: possiblePoints.s.y,
+                        x: cardinalPoints.s.x + nudge,
+                        y: cardinalPoints.s.y,
                     };
                     possiblePoints.sNudgeW = {
-                        x: possiblePoints.s.x - nudge,
-                        y: possiblePoints.s.y,
+                        x: cardinalPoints.s.x - nudge,
+                        y: cardinalPoints.s.y,
                     };
                     possiblePoints.wNudgeN = {
-                        x: possiblePoints.w.x,
-                        y: possiblePoints.w.y + nudge,
+                        x: cardinalPoints.w.x,
+                        y: cardinalPoints.w.y + nudge,
                     };
                     possiblePoints.wNudgeS = {
-                        x: possiblePoints.w.x,
-                        y: possiblePoints.w.y - nudge,
+                        x: cardinalPoints.w.x,
+                        y: cardinalPoints.w.y - nudge,
                     };
+                } else {
+                    possiblePoints = Object.assign(cardinalPoints, possiblePoints);
                 }
 
                 return possiblePoints;
