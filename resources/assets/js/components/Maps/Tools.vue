@@ -41,6 +41,9 @@
                 <div class="ui icon basic button" ref="color">
                     <i class="stop icon" :style="'color: ' + this.color + ';'"></i>
                 </div>
+                <div class="ui basic button" ref="size">
+                    <span>{{ size }}</span>
+                </div>
             </div>
         </div>
         <div class="ui color special popup bottom center">
@@ -108,7 +111,8 @@
         data: function () {
             return {
                 scale: 0.10,
-                color: '#698e6c'
+                color: '#698e6c',
+                size: 80
             }
         },
         computed: {
