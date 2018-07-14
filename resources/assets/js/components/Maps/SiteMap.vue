@@ -61,7 +61,10 @@
             });
             bus.$on('set-color', color => {
                 this.canvasContext.fillStyle = color;
-            })
+            });
+            bus.$on('set-size', size => {
+                this.size = size;
+            });
         },
         mounted() {
             Vue.nextTick(() => {
