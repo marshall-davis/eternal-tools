@@ -186,7 +186,7 @@
                 cardinalPoints.w = this.shiftDirection('w');
 
                 if (perSide === 2) {
-                    let nudge = this.lastDelta.size / 2;
+                    let nudge = this.lastDelta.size / 4;
                     possiblePoints.nNudgeE = {
                         x: cardinalPoints.n.x + nudge,
                         y: cardinalPoints.n.y,
