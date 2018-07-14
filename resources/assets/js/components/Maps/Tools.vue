@@ -42,7 +42,7 @@
                     <i class="stop icon" :style="'color: ' + this.color + ';'"></i>
                 </div>
                 <div class="ui icon basic labeled button dropdown" ref="size">
-                    <i></i>
+                    <i class="expand icon"></i>
                     {{ size }}
                     <div class="menu">
                         <div class="item" data-value="10">10</div>
